@@ -1,8 +1,9 @@
-"""Folium map generation for PathSnap (used by the API and usable as a standalone script)."""
+"""Folium map generation for PathSnap (used by the API and usable as a standalone script). """
 from __future__ import annotations
 
 import numpy as np
 import folium
+from pathlib import Path
 
 from pathsnap import Trip
 
@@ -81,14 +82,18 @@ def build_map(trip: Trip, result: dict, reference: np.ndarray | None = None,
 
 
 if __name__ == '__main__':
-    # Standalone: python viz.py <trip_folder> <model.pkl> <out.html>
+    import json
     import pickle
     import sys
     from pathsnap import decode
     folder, model_path, out = sys.argv[1:4]
     with open(model_path, 'rb') as f:
         mdl = pickle.load(f)
+    metadata_path = Path(model_path).with_suffix('.json')
+    metadata = json.loads(metadata_path.read_text()) if metadata_path.exists() else {}
     t = Trip.from_directory(folder, include_route=False)
     ref = Trip.from_directory(folder, include_route=True).route
-    open(out, 'w', encoding='utf-8').write(build_map(t, decode(t, mdl, 24, 0.0), ref))
+    result = decode(t, mdl, int(metadata.get('candidate_count', 24)), 0.0,
+                    int(metadata.get('context_radius', 0)))
+    open(out, 'w', encoding='utf-8').write(build_map(t, result, ref))
     print('wrote', out)
