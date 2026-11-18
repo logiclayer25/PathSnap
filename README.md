@@ -1,6 +1,6 @@
 # PathSnap
 
-PathSnap is a GPS trajectory map-matching project. It generates nearby road candidates for noisy GPS observations, scores candidates with a supervised classifier, and includes a FastAPI baseline for prediction. The validated first-submission work covers dataset exploration, shared candidate/feature engineering, trip-grouped cross-validation and comparison of five classifiers. Bayesian optimization, HMM/Viterbi route reconstruction and two-laptop deployment remain later-stage work and are not represented as validated here.
+PathSnap is a GPS trajectory map-matching project. It generates nearby road candidates for noisy GPS observations, scores candidates with a supervised classifier, and reconstructs routes with graph-aware Viterbi decoding. Dataset exploration, the shared feature pipeline, five-model comparison, trip-grouped Optuna tuning, and classifier-versus-Viterbi evaluation are implemented. The current best measured development Top-1 accuracy is 75.70%; a 95% target has not been achieved. The browser client and local API have been checked, but the event's evaluator interface and two-laptop network are not available for end-to-end verification.
 
 ## Project structure
 
@@ -16,7 +16,15 @@ PathSnap/
 ├── extra_trees.py
 ├── hist_gradient_boosting.py
 ├── visualize.py                # PNG generation from saved results/models
-├── app.py                      # FastAPI baseline
+├── tune.py                     # Optuna TPE with trip-grouped CV
+├── train.py                    # Fit a timestamped model artifact
+├── hmm_cv.py                   # Select transition settings on training trips
+├── evaluate_decoding.py        # Compare classifier and Viterbi on development trips
+├── preprocess_dataset.py       # Export reusable labeled candidate rows
+├── extract_preprocessed.py     # Produce plain CSVs from compressed intermediates
+├── app.py                      # FastAPI prediction service
+├── evaluator_ui/               # Laptop 2 browser client
+├── submission/first_viva/      # Viva reports, models, plots, and local CSVs
 ├── artifacts/
 │   ├── dataset_exploration/    # Dataset inventory and statistics
 │   ├── data_pipeline/          # Candidate audit outputs
@@ -28,13 +36,13 @@ PathSnap/
 
 ## System architecture
 
-`Trip` parsing and `ProjectedGraph` in `pathsnap.py` provide one shared data path. Candidate generation emits up to 24 nearby arcs for each GPS observation and nine common geometric/temporal features. The reference `.route` is used to label examples for fitting and evaluation only. Five scikit-learn classifiers use the same feature matrix and seed. `experiments.py` evaluates them with five-fold `GroupKFold` by trip, then records permitted development metrics on the ten `student_test` trips. `visualize.py` reads saved experiment JSON and model artifacts to create plots without retraining.
+`Trip` parsing and `ProjectedGraph` in `pathsnap.py` provide one shared data path. Candidate generation emits up to 24 nearby arcs for each GPS observation and nine common geometric/temporal features. The reference `.route` is used to label examples for fitting and evaluation only. Five scikit-learn classifiers use the same feature matrix and seed. `experiments.py` evaluates them with five-fold `GroupKFold` by trip, then records permitted development metrics on the ten `student_test` trips. Optuna tunes HGB with the same trip-grouping rule. The decoder uses classifier emissions and directed road connectivity. `visualize.py` reads saved experiment JSON and model artifacts to create plots without retraining.
 
 ## Data format
 
 Each trip folder contains `<id>.track`, `<id>.nodes`, `<id>.arcs`, and `<id>.route`. Coordinates are longitude then latitude. `.track` has an optional third time/sample column. `.arcs` rows contain node row indices; `.route` rows contain arc row indices. The code checks these references before processing.
 
-The model is fitted only on `Student folder/train`. The supplied `student_test` trips are used only for the permitted development-stage evaluation and never for fitting. There is no separate `evaluator_test` partition in the current workspace.
+The model is fitted only on `Student folder/train`. The supplied `student_test` trips are used only for the permitted development-stage evaluation and never for fitting. A separate local `evaluator_test` directory is ignored by Git and kept out of all training and tuning commands.
 
 ## Stages 1-4: exploration, pipeline, and model comparison
 
@@ -104,29 +112,39 @@ These values are from the saved 24-candidate run above. CV scores are observatio
 | Extra Trees | 0.671 | 0.611 | 0.717 | 0.503 | 0.258 | 0.23% | 0.845 | 24.91 | 0.193 |
 | Hist Gradient Boosting | **0.686** | **0.645** | **0.741** | **0.548** | **0.063** | 0.23% | **0.891** | 10.44 | 0.331 |
 
-## Later stages (not part of the first submission)
+## Bayesian tuning and route decoding
 
-The following baseline instructions are retained for the later project stages; they were not executed as part of Stages 1–4. Do not treat these scripts or older artifacts as validated by the current model comparison.
-
-### Tune hyperparameters
+The tuning procedure uses Optuna TPE with five-fold GroupKFold on all 80 training trips, 24 candidates and the same nine features. It optimizes mean candidate average precision and records candidate Macro F1 as a secondary metric. Unlabeled observations whose reference arc is missing from the generated candidate set are excluded from classifier fitting and candidate scoring.
 
 ```bash
-python tune.py --trials 20
+python tune.py --trials 20 --folds 5 --candidates 24 --seed 42
 ```
 
-This uses Optuna's TPE sampler to tune the candidate classifier against a fixed 20% **trip-level** validation split drawn from `train/`, using candidate average precision. It writes the split IDs, best parameters, and trial history to `artifacts/tuning.json`. After reviewing the best settings, apply them in `train.py` and retrain using the full training split.
+Each run writes a new folder under `artifacts/tuning/` with `summary.json`, `trials.json`, `trials.csv`, fold trip assignments, and a persistent Optuna SQLite database. Existing `artifacts/tuning.json` is an earlier baseline and is retained.
 
 ```bash
-python train.py --tuning artifacts/tuning.json
+python train.py --tuning artifacts/tuning/hist_gradient_boosting-20261118T064118Z/summary.json --candidates 24 --seed 42
 ```
 
-The tuning run uses the non-validation training trips to estimate candidate-model quality; the final retraining command then fits the selected settings using all trips in `train/`.
+This fits the selected settings on all 80 trips and writes a new timestamped model under `artifacts/models/`. For the completed tuning run, the resulting model is `artifacts/models/histgb-20261118T070402Z.pkl`. The search ran 20 trials (13 completed, 7 pruned); best completed mean candidate average precision was 0.7602 and the best trial's mean candidate Macro F1 was 0.8476.
+
+`evaluate_decoding.py` compares classifier-only candidate selection with the graph-constrained Viterbi route on all ten supplied development trips. Pass the saved tuned model path using `--tuned-model`; evaluation outputs go to a new timestamped folder under `artifacts/decoding/`.
+
+```bash
+python evaluate_decoding.py --tuned-model artifacts/models/histgb-20261118T070402Z.pkl --candidate-count 24
+```
+
+`hmm_cv.py` selects transition settings using out-of-fold predictions from five trip-grouped folds across all 80 training trips. The selected settings were a 60 m emission distance scale and transition weight 0.0. On training-fold predictions, Viterbi Top-1 was 71.18% versus 68.74% for classifier-only. The distance-aware network decoder was also compared across five trip-grouped folds in `artifacts/decoding/network-hmm-cv-20261118T092658Z/`: its best Top-1 was 70.60%, so it was not selected. It had a slightly higher Macro F1 (71.99% versus 71.47%) and lower route continuity (96.02% versus 99.03%).
+
+On the ten permitted `student_test` development trips, tuned HGB plus the selected existing decoder scored 75.69% Top-1, 59.38% Macro F1, 99.18% route continuity, and a 0.23% candidate miss rate. The earlier baseline HGB plus Viterbi scored 75.70% Top-1. All are below the requested 95% target.
 
 ## Run the API on Laptop 1
 
 ```bash
 uvicorn app:app --host 0.0.0.0 --port 8000
 ```
+
+The API defaults to `artifacts/models/histgb-20261118T070402Z.pkl`, 24 candidates, and transition weight 0. Override the model with `PATHSNAP_MODEL` and CORS origins with `PATHSNAP_CORS_ORIGINS`.
 
 Find Laptop 1's private IPv4 address on the shared network and allow incoming TCP connections to port 8000 in its firewall. Confirm locally at `http://127.0.0.1:8000/health` and from Laptop 2 at `http://<LAPTOP_1_IP>:8000/health`. Interactive API documentation is at `/docs`.
 
@@ -143,13 +161,13 @@ Find Laptop 1's private IPv4 address on the shared network and allow incoming TC
 }
 ```
 
-For an evaluator that supplies a dataset trip ID rather than arrays, call `POST /trips/{8-digit-trip-id}/predict`; it loads from `Student folder/evaluator_test` by default (override with `PATHSNAP_EVALUATOR_SPLIT`). The prediction loader explicitly omits `.route`, and route labels are never returned by this endpoint. The provided workspace currently has no `evaluator_test` partition; mount the event's reserved trips there before the demo. The server is designed for the evaluator to provide the graph and track, so adapt only the request/response field names if the evaluator's published API contract differs.
+For an evaluator that supplies a dataset trip ID rather than arrays, call `POST /trips/{8-digit-trip-id}/predict`; it loads from `Student folder/evaluator_test` by default (override with `PATHSNAP_EVALUATOR_SPLIT`). The prediction loader explicitly omits `.route`, and route labels are never returned by this endpoint. Keep reserved evaluator data local and excluded from Git. The server is designed for the evaluator to provide the graph and track, so adapt only the request/response field names if the evaluator's published API contract differs.
 
-## Baseline implementation notes (later stages are not yet validated)
+## API and evaluator integration status
 
 - Candidate features include metric point-to-edge distance, heading difference and cosine alignment, edge length and projection fraction, estimated speed and displacement, observed time gap, and normalized elapsed-time progress.
 - Training labels associate each GPS sample with nearby supplied route geometry; route order is a tie-break to keep labels chronological. Candidate classification uses a scikit-learn histogram gradient boosting model.
 - `train.py` writes a new timestamped model and per-trip label counts; it excludes observations whose reference route arc is missing from the candidate set. It refuses to overwrite an existing model.
-- The old HMM and tuning scripts/artifacts are preserved from the initial baseline, but they are outside the first-four-stage results described above and should not be treated as final validated components.
+- The API and Viterbi decoders are available in `app.py` and `pathsnap.py`. A generic Laptop 2 browser client is in `evaluator_ui/`; setup steps are in that folder's README. Local `/health`, `/predict`, and CORS preflight checks passed. A local evaluator-trip API prediction also returned successfully without reading `.route`. The event-specific interface and an actual two-laptop network test remain to be checked.
 
-The pre-audit `artifacts/candidate_model.pkl` and `artifacts/tuning.json` are retained as earlier baseline artifacts. The experiment workflow above writes new timestamped results without overwriting them. Bayesian tuning and HMM/UI/deployment work are separate later stages and have not been validated by this first-stage comparison.
+The pre-audit `artifacts/candidate_model.pkl` and `artifacts/tuning.json` are retained as earlier baseline artifacts. All new tuning, model, and evaluation outputs use timestamped paths to preserve reproducibility.

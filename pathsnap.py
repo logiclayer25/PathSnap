@@ -9,6 +9,8 @@ import math
 
 import numpy as np
 from scipy.spatial import cKDTree
+from scipy.sparse import csr_matrix
+from scipy.sparse.csgraph import dijkstra
 
 EARTH_M = 6_371_000.0
 
@@ -238,57 +240,155 @@ def route_continuity(trip: Trip, predicted_arcs: Iterable[int]) -> float:
     return connected / (len(arcs) - 1)
 
 
-def decode(trip: Trip, model: Any, candidate_count: int = 12,
-           transition_weight: float = 1.5) -> dict[str, Any]:
+def viterbi_candidate_paths(trip: Trip, arc_ids: np.ndarray, obs_ids: np.ndarray,
+                           row_emissions: np.ndarray, transition_weights: Iterable[float]) -> dict[float, np.ndarray]:
     graph = ProjectedGraph(trip)
-    candidates: list[np.ndarray] = []
-    distances: list[np.ndarray] = []
-    fractions: list[np.ndarray] = []
-    emissions: list[np.ndarray] = []
-    for i, point in enumerate(graph.track_xy):
-        edges, dists, frac = graph.candidates(point, candidate_count)
-        feats = graph.features(i, edges, dists, frac)
-        proba = model.predict_proba(feats)
-        classes = list(model.classes_)
-        positive = classes.index(1) if 1 in classes else -1
-        score = proba[:, positive] if positive >= 0 else np.exp(-dists / 20.0)
-        score = np.maximum(score, 1e-9)
-        candidates.append(edges); distances.append(dists); fractions.append(frac)
-        emissions.append(np.log(score) - dists / 60.0)
-
-
-    dp = emissions[0].copy()
-    backpointers: list[np.ndarray] = []
+    if not len(obs_ids):
+        raise ValueError('Cannot decode an empty GPS track')
+    starts = np.r_[0, np.flatnonzero(obs_ids[1:] != obs_ids[:-1]) + 1]
+    ends = np.r_[starts[1:], len(obs_ids)]
+    candidates = [arc_ids[start:end] for start, end in zip(starts, ends)]
+    emissions = [row_emissions[start:end] for start, end in zip(starts, ends)]
+    bases = []
+    direction_scores = []
     for t in range(1, len(candidates)):
         prev_edges, cur_edges = candidates[t-1], candidates[t]
         step = float(np.linalg.norm(graph.track_xy[t] - graph.track_xy[t-1]))
         transition = np.full((len(prev_edges), len(cur_edges)), -3.0, dtype=np.float64)
-        for a, e1 in enumerate(prev_edges):
-            for b, e2 in enumerate(cur_edges):
-                if e1 == e2:
-                    transition[a, b] = -0.25
-                elif int(e2) in graph.edge_adjacency[int(e1)]:
-                    transition[a, b] = -0.2
-                elif int(e1) in graph.edge_adjacency[int(e2)]:
-                    transition[a, b] = -1.5
-                else:
-                    transition[a, b] = -4.0
+        transition.fill(-4.0)
+        forward = np.zeros_like(transition, dtype=bool)
+        backward = np.zeros_like(transition, dtype=bool)
+        for row, edge in enumerate(prev_edges):
+            forward[row] = np.isin(cur_edges, tuple(graph.edge_adjacency[int(edge)]))
+        for column, edge in enumerate(cur_edges):
+            backward[:, column] = np.isin(prev_edges, tuple(graph.edge_adjacency[int(edge)]))
+        transition[backward] = -1.5
+        transition[forward] = -0.2
+        same = prev_edges[:, None] == cur_edges[None, :]
+        transition[same] = -0.25
+        direction = np.zeros_like(transition)
+        if step > 1:
+            obs_delta = graph.track_xy[t] - graph.track_xy[t-1]
+            obs_norm = np.linalg.norm(obs_delta)
+            mid_delta = graph.mid[cur_edges][None, :, :] - graph.mid[prev_edges][:, None, :]
+            mid_norm = np.linalg.norm(mid_delta, axis=2)
+            valid = mid_norm > 1
+            cosine = np.einsum('ijk,k->ij', mid_delta, obs_delta) / (mid_norm * obs_norm + 1e-9)
+            direction[valid] = cosine[valid]
+        bases.append(transition)
+        direction_scores.append(direction)
 
-                mid_delta = graph.mid[e2] - graph.mid[e1]
-                if step > 1 and np.linalg.norm(mid_delta) > 1:
-                    obs_delta = graph.track_xy[t] - graph.track_xy[t-1]
-                    cosine = float(np.dot(mid_delta, obs_delta) / (np.linalg.norm(mid_delta)*np.linalg.norm(obs_delta)+1e-9))
-                    transition[a, b] += transition_weight * cosine
-        values = dp[:, None] + transition
-        bp = np.argmax(values, axis=0)
-        dp = emissions[t] + values[bp, np.arange(len(cur_edges))]
-        backpointers.append(bp)
-    state = int(np.argmax(dp))
-    states = [state]
-    for bp in reversed(backpointers):
-        state = int(bp[state]); states.append(state)
-    states.reverse()
-    matched = np.array([candidates[t][s] for t, s in enumerate(states)], dtype=np.int64)
+    paths = {}
+    for weight in transition_weights:
+        dp = emissions[0].copy()
+        backpointers = []
+        for t, (base, direction) in enumerate(zip(bases, direction_scores), 1):
+            transition = base + float(weight) * direction
+            values = dp[:, None] + transition
+            bp = np.argmax(values, axis=0)
+            dp = emissions[t] + values[bp, np.arange(len(candidates[t]))]
+            backpointers.append(bp)
+        state = int(np.argmax(dp))
+        states = [state]
+        for bp in reversed(backpointers):
+            state = int(bp[state])
+            states.append(state)
+        states.reverse()
+        paths[float(weight)] = np.array([candidates[t][s] for t, s in enumerate(states)], dtype=np.int64)
+    return paths
+
+
+def network_viterbi_paths(trip: Trip, arc_ids: np.ndarray, obs_ids: np.ndarray,
+                          fractions: np.ndarray, row_emissions: np.ndarray,
+                          settings: Iterable[tuple[float, float]]) -> dict[tuple[float, float], np.ndarray]:
+    graph = ProjectedGraph(trip)
+    settings = list(settings)
+    edge_nodes = trip.arcs[:, :2].astype(np.int64)
+    edge_lengths = graph.length
+    edge_weights = {}
+    for edge, (start, end) in enumerate(edge_nodes):
+        key = (int(start), int(end))
+        edge_weights[key] = min(edge_weights.get(key, float('inf')), float(edge_lengths[edge]))
+    keys = list(edge_weights)
+    network = csr_matrix((np.fromiter((edge_weights[key] for key in keys), dtype=np.float64),
+                          (np.fromiter((key[0] for key in keys), dtype=np.int64),
+                           np.fromiter((key[1] for key in keys), dtype=np.int64))),
+                         shape=(len(trip.nodes), len(trip.nodes)))
+    starts = np.r_[0, np.flatnonzero(obs_ids[1:] != obs_ids[:-1]) + 1]
+    ends = np.r_[starts[1:], len(obs_ids)]
+    candidates = [arc_ids[start:end] for start, end in zip(starts, ends)]
+    fractions_by_observation = [fractions[start:end] for start, end in zip(starts, ends)]
+    emissions = [row_emissions[start:end] for start, end in zip(starts, ends)]
+    unique_sources = np.unique(edge_nodes[arc_ids, 1])
+    source_rows = dijkstra(network, directed=True, indices=unique_sources)
+    if source_rows.ndim == 1:
+        source_rows = source_rows[None, :]
+    source_lookup = {int(node): row for row, node in enumerate(unique_sources)}
+    transition_errors = []
+    for t in range(1, len(candidates)):
+        prev_edges = candidates[t - 1]
+        cur_edges = candidates[t]
+        prev_fraction = fractions_by_observation[t - 1]
+        cur_fraction = fractions_by_observation[t]
+        source_ids = edge_nodes[prev_edges, 1]
+        target_ids = edge_nodes[cur_edges, 0]
+        distances = source_rows[np.asarray([source_lookup[int(node)] for node in source_ids])[:, None],
+                                target_ids[None, :]]
+        network_distance = ((1.0 - prev_fraction[:, None]) * edge_lengths[prev_edges, None]
+                            + distances
+                            + cur_fraction[None, :] * edge_lengths[None, cur_edges])
+        same_forward = ((prev_edges[:, None] == cur_edges[None, :])
+                        & (cur_fraction[None, :] >= prev_fraction[:, None]))
+        same_distance = ((cur_fraction[None, :] - prev_fraction[:, None])
+                         * edge_lengths[prev_edges, None])
+        network_distance[same_forward] = same_distance[same_forward]
+        observed_distance = float(np.linalg.norm(graph.track_xy[t] - graph.track_xy[t - 1]))
+        error = np.abs(network_distance - observed_distance)
+        transition_errors.append(error)
+    paths = {}
+    for distance_scale, transition_weight in settings:
+        dp = emissions[0].copy()
+        backpointers = []
+        for t, error in enumerate(transition_errors, 1):
+            transition = -error / max(1.0, distance_scale)
+            transition[~np.isfinite(transition)] = -20.0
+            transition = np.maximum(transition, -20.0) * transition_weight
+            values = dp[:, None] + transition
+            best_previous = np.argmax(values, axis=0)
+            dp = emissions[t] + values[best_previous, np.arange(len(candidates[t]))]
+            backpointers.append(best_previous)
+        state = int(np.argmax(dp))
+        states = [state]
+        for backpointer in reversed(backpointers):
+            state = int(backpointer[state])
+            states.append(state)
+        states.reverse()
+        paths[(float(distance_scale), float(transition_weight))] = np.asarray(
+            [candidates[t][state] for t, state in enumerate(states)], dtype=np.int64)
+    return paths
+
+
+def network_viterbi_path(trip: Trip, arc_ids: np.ndarray, obs_ids: np.ndarray,
+                         fractions: np.ndarray, row_emissions: np.ndarray,
+                         distance_scale: float, transition_weight: float) -> np.ndarray:
+    return network_viterbi_paths(trip, arc_ids, obs_ids, fractions, row_emissions,
+                                 [(distance_scale, transition_weight)])[(float(distance_scale),
+                                                                         float(transition_weight))]
+
+
+def decode(trip: Trip, model: Any, candidate_count: int = 12,
+           transition_weight: float = 1.5) -> dict[str, Any]:
+    graph = ProjectedGraph(trip)
+    features, arc_ids, obs_ids = candidate_inputs(trip, candidate_count)
+    probabilities = model.predict_proba(features)
+    classes = list(model.classes_) if hasattr(model, 'classes_') else list(model[-1].classes_)
+    if 1 in classes:
+        score = probabilities[:, classes.index(1)]
+    else:
+        score = np.exp(-features[:, 0] / 20.0)
+    row_emissions = np.log(np.maximum(score, 1e-9)) - features[:, 0] / 60.0
+    matched = viterbi_candidate_paths(trip, arc_ids, obs_ids, row_emissions,
+                                     [transition_weight])[float(transition_weight)]
 
     route = [int(matched[0])]
     for e in matched[1:]:

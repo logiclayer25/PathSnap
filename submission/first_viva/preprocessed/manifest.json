@@ -1,0 +1,52 @@
+{
+  "source_split": "Student folder/train",
+  "candidate_count": 24,
+  "feature_count": 9,
+  "total_rows": 4752936,
+  "regenerate_commands": [
+    "python preprocess_dataset.py",
+    "python extract_preprocessed.py"
+  ],
+  "parts": [
+    {
+      "file": "train_candidates_01.csv",
+      "rows": 540384,
+      "bytes": 88385668
+    },
+    {
+      "file": "train_candidates_02.csv",
+      "rows": 663192,
+      "bytes": 108119603
+    },
+    {
+      "file": "train_candidates_03.csv",
+      "rows": 502632,
+      "bytes": 82702574
+    },
+    {
+      "file": "train_candidates_04.csv",
+      "rows": 412536,
+      "bytes": 67821789
+    },
+    {
+      "file": "train_candidates_05.csv",
+      "rows": 586416,
+      "bytes": 96173338
+    },
+    {
+      "file": "train_candidates_06.csv",
+      "rows": 508608,
+      "bytes": 83245566
+    },
+    {
+      "file": "train_candidates_07.csv",
+      "rows": 911520,
+      "bytes": 149809392
+    },
+    {
+      "file": "train_candidates_08.csv",
+      "rows": 627648,
+      "bytes": 103127612
+    }
+  ]
+}

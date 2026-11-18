@@ -1,0 +1,136 @@
+{
+  "run_id": "evaluation-20261118T073214Z",
+  "student_test_trip_count": 10,
+  "candidate_count": 24,
+  "transition_weight": 0.0,
+  "prediction_modes": {
+    "baseline_hist_gradient_boosting_classifier_only": {
+      "top1_accuracy": 0.7406054279749478,
+      "macro_f1": 0.5504243524176723,
+      "route_continuity": 0.8896605744125327,
+      "observations": 19160,
+      "inference_seconds_total": 0.2696256672497839
+    },
+    "baseline_hist_gradient_boosting_viterbi": {
+      "top1_accuracy": 0.7570459290187892,
+      "macro_f1": 0.5990420258694158,
+      "route_continuity": 0.9913838120104439,
+      "observations": 19160,
+      "inference_seconds_total": 8.908311707200482
+    },
+    "optuna_tuned_hist_gradient_boosting_classifier_only": {
+      "top1_accuracy": 0.7406576200417536,
+      "macro_f1": 0.5517363096183471,
+      "route_continuity": 0.8910704960835509,
+      "observations": 19160,
+      "inference_seconds_total": 0.6022369189886376
+    },
+    "optuna_tuned_hist_gradient_boosting_viterbi": {
+      "top1_accuracy": 0.7568893528183716,
+      "macro_f1": 0.5937908873381522,
+      "route_continuity": 0.9918015665796345,
+      "observations": 19160,
+      "inference_seconds_total": 9.29391700180713
+    }
+  },
+  "per_trip": [
+    {
+      "trip_id": "00000000",
+      "observations": 2503,
+      "candidate_miss_observations": 0,
+      "baseline_hist_gradient_boosting_classifier_seconds": 0.035691166995093226,
+      "baseline_hist_gradient_boosting_viterbi_seconds": 1.128109416924417,
+      "optuna_tuned_hist_gradient_boosting_classifier_seconds": 0.06714720907621086,
+      "optuna_tuned_hist_gradient_boosting_viterbi_seconds": 1.1667960840277374
+    },
+    {
+      "trip_id": "00000007",
+      "observations": 1354,
+      "candidate_miss_observations": 0,
+      "baseline_hist_gradient_boosting_classifier_seconds": 0.01952662505209446,
+      "baseline_hist_gradient_boosting_viterbi_seconds": 0.5902636250248179,
+      "optuna_tuned_hist_gradient_boosting_classifier_seconds": 0.04399874992668629,
+      "optuna_tuned_hist_gradient_boosting_viterbi_seconds": 0.6170252920128405
+    },
+    {
+      "trip_id": "00000009",
+      "observations": 1049,
+      "candidate_miss_observations": 0,
+      "baseline_hist_gradient_boosting_classifier_seconds": 0.02016133302822709,
+      "baseline_hist_gradient_boosting_viterbi_seconds": 0.49367975001223385,
+      "optuna_tuned_hist_gradient_boosting_classifier_seconds": 0.04521916701924056,
+      "optuna_tuned_hist_gradient_boosting_viterbi_seconds": 0.519395750015974
+    },
+    {
+      "trip_id": "00000040",
+      "observations": 2995,
+      "candidate_miss_observations": 0,
+      "baseline_hist_gradient_boosting_classifier_seconds": 0.033816833049058914,
+      "baseline_hist_gradient_boosting_viterbi_seconds": 1.4056341249961406,
+      "optuna_tuned_hist_gradient_boosting_classifier_seconds": 0.07629333401564509,
+      "optuna_tuned_hist_gradient_boosting_viterbi_seconds": 1.42574324994348
+    },
+    {
+      "trip_id": "00000052",
+      "observations": 262,
+      "candidate_miss_observations": 0,
+      "baseline_hist_gradient_boosting_classifier_seconds": 0.013533334014937282,
+      "baseline_hist_gradient_boosting_viterbi_seconds": 0.13072470796760172,
+      "optuna_tuned_hist_gradient_boosting_classifier_seconds": 0.02572804200462997,
+      "optuna_tuned_hist_gradient_boosting_viterbi_seconds": 0.1496759169967845
+    },
+    {
+      "trip_id": "00000056",
+      "observations": 3958,
+      "candidate_miss_observations": 33,
+      "baseline_hist_gradient_boosting_classifier_seconds": 0.04365820810198784,
+      "baseline_hist_gradient_boosting_viterbi_seconds": 1.754570916062221,
+      "optuna_tuned_hist_gradient_boosting_classifier_seconds": 0.10618374997284263,
+      "optuna_tuned_hist_gradient_boosting_viterbi_seconds": 1.8488782499916852
+    },
+    {
+      "trip_id": "00000065",
+      "observations": 768,
+      "candidate_miss_observations": 5,
+      "baseline_hist_gradient_boosting_classifier_seconds": 0.01722879195585847,
+      "baseline_hist_gradient_boosting_viterbi_seconds": 0.37694616604130715,
+      "optuna_tuned_hist_gradient_boosting_classifier_seconds": 0.03920183295849711,
+      "optuna_tuned_hist_gradient_boosting_viterbi_seconds": 0.3967201249906793
+    },
+    {
+      "trip_id": "00000076",
+      "observations": 1486,
+      "candidate_miss_observations": 0,
+      "baseline_hist_gradient_boosting_classifier_seconds": 0.02424125000834465,
+      "baseline_hist_gradient_boosting_viterbi_seconds": 0.8888055001152679,
+      "optuna_tuned_hist_gradient_boosting_classifier_seconds": 0.05573374999221414,
+      "optuna_tuned_hist_gradient_boosting_viterbi_seconds": 0.9118043329799548
+    },
+    {
+      "trip_id": "00000077",
+      "observations": 3911,
+      "candidate_miss_observations": 6,
+      "baseline_hist_gradient_boosting_classifier_seconds": 0.04349341697525233,
+      "baseline_hist_gradient_boosting_viterbi_seconds": 1.7214210000820458,
+      "optuna_tuned_hist_gradient_boosting_classifier_seconds": 0.1017843340523541,
+      "optuna_tuned_hist_gradient_boosting_viterbi_seconds": 1.7981300839455798
+    },
+    {
+      "trip_id": "00000091",
+      "observations": 874,
+      "candidate_miss_observations": 0,
+      "baseline_hist_gradient_boosting_classifier_seconds": 0.018274708068929613,
+      "baseline_hist_gradient_boosting_viterbi_seconds": 0.4181564999744296,
+      "optuna_tuned_hist_gradient_boosting_classifier_seconds": 0.04094674997031689,
+      "optuna_tuned_hist_gradient_boosting_viterbi_seconds": 0.45974791690241545
+    }
+  ],
+  "candidate_miss_rate": 0.0022964509394572024,
+  "tuned_candidate_log_loss": 0.0636384025871809,
+  "metric_scope": {
+    "top1_accuracy_and_macro_f1": "all student-test GPS observations",
+    "candidate_miss_rate": "all student-test GPS observations, reported separately",
+    "candidate_log_loss": "tuned model candidates only where the reference route arc was generated",
+    "inference_time": "feature candidate inputs excluded for classifier scoring; Viterbi time includes its own feature generation and decoding"
+  }
+}

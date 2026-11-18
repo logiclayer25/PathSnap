@@ -1,0 +1,376 @@
+{
+  "run_id": "evaluation-20261118T074417Z",
+  "student_test_trip_count": 10,
+  "candidate_count": 24,
+  "transition_weight": 0.0,
+  "prediction_modes": {
+    "baseline_hist_gradient_boosting_classifier_only": {
+      "top1_accuracy": 0.7406054279749478,
+      "macro_f1": 0.5504243524176723,
+      "route_continuity": 0.8896605744125327,
+      "observations": 19160,
+      "inference_seconds_total": 0.27328116504941136
+    },
+    "baseline_hist_gradient_boosting_viterbi": {
+      "top1_accuracy": 0.7570459290187892,
+      "macro_f1": 0.5990420258694158,
+      "route_continuity": 0.9913838120104439,
+      "observations": 19160,
+      "inference_seconds_total": 8.849782500066794
+    },
+    "optuna_tuned_hist_gradient_boosting_classifier_only": {
+      "top1_accuracy": 0.7406576200417536,
+      "macro_f1": 0.5517363096183471,
+      "route_continuity": 0.8910704960835509,
+      "observations": 19160,
+      "inference_seconds_total": 0.6066675829933956
+    },
+    "optuna_tuned_hist_gradient_boosting_viterbi": {
+      "top1_accuracy": 0.7568893528183716,
+      "macro_f1": 0.5937908873381522,
+      "route_continuity": 0.9918015665796345,
+      "observations": 19160,
+      "inference_seconds_total": 9.430055416189134
+    }
+  },
+  "per_trip": [
+    {
+      "trip_id": "00000000",
+      "observations": 2503,
+      "candidate_miss_observations": 0,
+      "baseline_hist_gradient_boosting_classifier_seconds": 0.03712508303578943,
+      "baseline_hist_gradient_boosting_viterbi_seconds": 1.1224488749867305,
+      "optuna_tuned_hist_gradient_boosting_classifier_seconds": 0.06921445799525827,
+      "optuna_tuned_hist_gradient_boosting_viterbi_seconds": 1.1605134999845177,
+      "baseline_hist_gradient_boosting_classifier_only_metrics": {
+        "top1_accuracy": 0.9304834198961246,
+        "macro_f1": 0.6841397296360398,
+        "route_continuity": 0.9464428457234213,
+        "observations": 2503
+      },
+      "baseline_hist_gradient_boosting_viterbi_metrics": {
+        "top1_accuracy": 0.9592489013184179,
+        "macro_f1": 0.8060706761802228,
+        "route_continuity": 0.9984012789768185,
+        "observations": 2503
+      },
+      "optuna_tuned_hist_gradient_boosting_classifier_only_metrics": {
+        "top1_accuracy": 0.931282461046744,
+        "macro_f1": 0.7037808946850512,
+        "route_continuity": 0.9416466826538769,
+        "observations": 2503
+      },
+      "optuna_tuned_hist_gradient_boosting_viterbi_metrics": {
+        "top1_accuracy": 0.9544546544147023,
+        "macro_f1": 0.7857789618672577,
+        "route_continuity": 0.9984012789768185,
+        "observations": 2503
+      }
+    },
+    {
+      "trip_id": "00000007",
+      "observations": 1354,
+      "candidate_miss_observations": 0,
+      "baseline_hist_gradient_boosting_classifier_seconds": 0.02004958305042237,
+      "baseline_hist_gradient_boosting_viterbi_seconds": 0.5892946670064703,
+      "optuna_tuned_hist_gradient_boosting_classifier_seconds": 0.045716249966062605,
+      "optuna_tuned_hist_gradient_boosting_viterbi_seconds": 0.825836000032723,
+      "baseline_hist_gradient_boosting_classifier_only_metrics": {
+        "top1_accuracy": 0.9062038404726735,
+        "macro_f1": 0.8944670045443478,
+        "route_continuity": 0.9933481152993349,
+        "observations": 1354
+      },
+      "baseline_hist_gradient_boosting_viterbi_metrics": {
+        "top1_accuracy": 0.9091580502215657,
+        "macro_f1": 0.9339849727865542,
+        "route_continuity": 0.9992609016999261,
+        "observations": 1354
+      },
+      "optuna_tuned_hist_gradient_boosting_classifier_only_metrics": {
+        "top1_accuracy": 0.9165435745937962,
+        "macro_f1": 0.9130577729131469,
+        "route_continuity": 0.9926090169992609,
+        "observations": 1354
+      },
+      "optuna_tuned_hist_gradient_boosting_viterbi_metrics": {
+        "top1_accuracy": 0.9172821270310192,
+        "macro_f1": 0.9461927197668125,
+        "route_continuity": 0.9992609016999261,
+        "observations": 1354
+      }
+    },
+    {
+      "trip_id": "00000009",
+      "observations": 1049,
+      "candidate_miss_observations": 0,
+      "baseline_hist_gradient_boosting_classifier_seconds": 0.020814291900023818,
+      "baseline_hist_gradient_boosting_viterbi_seconds": 0.4933436660794541,
+      "optuna_tuned_hist_gradient_boosting_classifier_seconds": 0.045847333036363125,
+      "optuna_tuned_hist_gradient_boosting_viterbi_seconds": 0.5225233340170234,
+      "baseline_hist_gradient_boosting_classifier_only_metrics": {
+        "top1_accuracy": 0.8017159199237369,
+        "macro_f1": 0.660174699314245,
+        "route_continuity": 0.8320610687022901,
+        "observations": 1049
+      },
+      "baseline_hist_gradient_boosting_viterbi_metrics": {
+        "top1_accuracy": 0.8493803622497617,
+        "macro_f1": 0.7514501530758214,
+        "route_continuity": 0.982824427480916,
+        "observations": 1049
+      },
+      "optuna_tuned_hist_gradient_boosting_classifier_only_metrics": {
+        "top1_accuracy": 0.792183031458532,
+        "macro_f1": 0.6408583254515082,
+        "route_continuity": 0.8234732824427481,
+        "observations": 1049
+      },
+      "optuna_tuned_hist_gradient_boosting_viterbi_metrics": {
+        "top1_accuracy": 0.8388941849380362,
+        "macro_f1": 0.7309597975057752,
+        "route_continuity": 0.9847328244274809,
+        "observations": 1049
+      }
+    },
+    {
+      "trip_id": "00000040",
+      "observations": 2995,
+      "candidate_miss_observations": 0,
+      "baseline_hist_gradient_boosting_classifier_seconds": 0.033872124971821904,
+      "baseline_hist_gradient_boosting_viterbi_seconds": 1.3845206249970943,
+      "optuna_tuned_hist_gradient_boosting_classifier_seconds": 0.07658724999055266,
+      "optuna_tuned_hist_gradient_boosting_viterbi_seconds": 1.3995882919989526,
+      "baseline_hist_gradient_boosting_classifier_only_metrics": {
+        "top1_accuracy": 0.8851419031719533,
+        "macro_f1": 0.7213002557392263,
+        "route_continuity": 0.9448897795591182,
+        "observations": 2995
+      },
+      "baseline_hist_gradient_boosting_viterbi_metrics": {
+        "top1_accuracy": 0.8884808013355593,
+        "macro_f1": 0.7699054028636418,
+        "route_continuity": 0.9979959919839679,
+        "observations": 2995
+      },
+      "optuna_tuned_hist_gradient_boosting_classifier_only_metrics": {
+        "top1_accuracy": 0.8874791318864774,
+        "macro_f1": 0.7281237067626388,
+        "route_continuity": 0.9458917835671342,
+        "observations": 2995
+      },
+      "optuna_tuned_hist_gradient_boosting_viterbi_metrics": {
+        "top1_accuracy": 0.8884808013355593,
+        "macro_f1": 0.7508212936916241,
+        "route_continuity": 0.9979959919839679,
+        "observations": 2995
+      }
+    },
+    {
+      "trip_id": "00000052",
+      "observations": 262,
+      "candidate_miss_observations": 0,
+      "baseline_hist_gradient_boosting_classifier_seconds": 0.014022583025507629,
+      "baseline_hist_gradient_boosting_viterbi_seconds": 0.13229824998416007,
+      "optuna_tuned_hist_gradient_boosting_classifier_seconds": 0.027048417017795146,
+      "optuna_tuned_hist_gradient_boosting_viterbi_seconds": 0.14593075006268919,
+      "baseline_hist_gradient_boosting_classifier_only_metrics": {
+        "top1_accuracy": 0.9389312977099237,
+        "macro_f1": 0.7671181864730251,
+        "route_continuity": 0.9310344827586207,
+        "observations": 262
+      },
+      "baseline_hist_gradient_boosting_viterbi_metrics": {
+        "top1_accuracy": 0.9427480916030534,
+        "macro_f1": 0.7892407218249916,
+        "route_continuity": 0.9731800766283525,
+        "observations": 262
+      },
+      "optuna_tuned_hist_gradient_boosting_classifier_only_metrics": {
+        "top1_accuracy": 0.9389312977099237,
+        "macro_f1": 0.7671181864730251,
+        "route_continuity": 0.9310344827586207,
+        "observations": 262
+      },
+      "optuna_tuned_hist_gradient_boosting_viterbi_metrics": {
+        "top1_accuracy": 0.9427480916030534,
+        "macro_f1": 0.7804713804713805,
+        "route_continuity": 0.9770114942528736,
+        "observations": 262
+      }
+    },
+    {
+      "trip_id": "00000056",
+      "observations": 3958,
+      "candidate_miss_observations": 33,
+      "baseline_hist_gradient_boosting_classifier_seconds": 0.043231834075413644,
+      "baseline_hist_gradient_boosting_viterbi_seconds": 1.7519975419854745,
+      "optuna_tuned_hist_gradient_boosting_classifier_seconds": 0.10409283300396055,
+      "optuna_tuned_hist_gradient_boosting_viterbi_seconds": 1.8460702080046758,
+      "baseline_hist_gradient_boosting_classifier_only_metrics": {
+        "top1_accuracy": 0.49519959575543204,
+        "macro_f1": 0.38171206340236824,
+        "route_continuity": 0.8531715946424059,
+        "observations": 3958
+      },
+      "baseline_hist_gradient_boosting_viterbi_metrics": {
+        "top1_accuracy": 0.5007579585649318,
+        "macro_f1": 0.3772363226339355,
+        "route_continuity": 0.9810462471569371,
+        "observations": 3958
+      },
+      "optuna_tuned_hist_gradient_boosting_classifier_only_metrics": {
+        "top1_accuracy": 0.49570490146538654,
+        "macro_f1": 0.38695699479652895,
+        "route_continuity": 0.8567096285064443,
+        "observations": 3958
+      },
+      "optuna_tuned_hist_gradient_boosting_viterbi_metrics": {
+        "top1_accuracy": 0.5042950985346134,
+        "macro_f1": 0.3766642877642671,
+        "route_continuity": 0.9815516805660854,
+        "observations": 3958
+      }
+    },
+    {
+      "trip_id": "00000065",
+      "observations": 768,
+      "candidate_miss_observations": 5,
+      "baseline_hist_gradient_boosting_classifier_seconds": 0.01898566703312099,
+      "baseline_hist_gradient_boosting_viterbi_seconds": 0.3849344999762252,
+      "optuna_tuned_hist_gradient_boosting_classifier_seconds": 0.0397299169562757,
+      "optuna_tuned_hist_gradient_boosting_viterbi_seconds": 0.3950876659946516,
+      "baseline_hist_gradient_boosting_classifier_only_metrics": {
+        "top1_accuracy": 0.78515625,
+        "macro_f1": 0.5680492804631803,
+        "route_continuity": 0.8409387222946545,
+        "observations": 768
+      },
+      "baseline_hist_gradient_boosting_viterbi_metrics": {
+        "top1_accuracy": 0.8216145833333334,
+        "macro_f1": 0.7145779646188719,
+        "route_continuity": 0.9791395045632334,
+        "observations": 768
+      },
+      "optuna_tuned_hist_gradient_boosting_classifier_only_metrics": {
+        "top1_accuracy": 0.7994791666666666,
+        "macro_f1": 0.6075686694804509,
+        "route_continuity": 0.8604954367666232,
+        "observations": 768
+      },
+      "optuna_tuned_hist_gradient_boosting_viterbi_metrics": {
+        "top1_accuracy": 0.82421875,
+        "macro_f1": 0.7298604872549844,
+        "route_continuity": 0.9817470664928292,
+        "observations": 768
+      }
+    },
+    {
+      "trip_id": "00000076",
+      "observations": 1486,
+      "candidate_miss_observations": 0,
+      "baseline_hist_gradient_boosting_classifier_seconds": 0.02425241598393768,
+      "baseline_hist_gradient_boosting_viterbi_seconds": 0.8873926249798387,
+      "optuna_tuned_hist_gradient_boosting_classifier_seconds": 0.055810124962590635,
+      "optuna_tuned_hist_gradient_boosting_viterbi_seconds": 0.9185625000391155,
+      "baseline_hist_gradient_boosting_classifier_only_metrics": {
+        "top1_accuracy": 0.8223418573351279,
+        "macro_f1": 0.532819562585088,
+        "route_continuity": 0.8323232323232324,
+        "observations": 1486
+      },
+      "baseline_hist_gradient_boosting_viterbi_metrics": {
+        "top1_accuracy": 0.8526244952893675,
+        "macro_f1": 0.6165958546393203,
+        "route_continuity": 0.9872053872053872,
+        "observations": 1486
+      },
+      "optuna_tuned_hist_gradient_boosting_classifier_only_metrics": {
+        "top1_accuracy": 0.8142664872139973,
+        "macro_f1": 0.5206806108254534,
+        "route_continuity": 0.832996632996633,
+        "observations": 1486
+      },
+      "optuna_tuned_hist_gradient_boosting_viterbi_metrics": {
+        "top1_accuracy": 0.8485868102288021,
+        "macro_f1": 0.6078936709787357,
+        "route_continuity": 0.9872053872053872,
+        "observations": 1486
+      }
+    },
+    {
+      "trip_id": "00000077",
+      "observations": 3911,
+      "candidate_miss_observations": 6,
+      "baseline_hist_gradient_boosting_classifier_seconds": 0.04271254094783217,
+      "baseline_hist_gradient_boosting_viterbi_seconds": 1.6884518330916762,
+      "optuna_tuned_hist_gradient_boosting_classifier_seconds": 0.10230454104021192,
+      "optuna_tuned_hist_gradient_boosting_viterbi_seconds": 1.7486857500625774,
+      "baseline_hist_gradient_boosting_classifier_only_metrics": {
+        "top1_accuracy": 0.6118639734083354,
+        "macro_f1": 0.44459139654632446,
+        "route_continuity": 0.8670076726342711,
+        "observations": 3911
+      },
+      "baseline_hist_gradient_boosting_viterbi_metrics": {
+        "top1_accuracy": 0.6256711838404501,
+        "macro_f1": 0.4930071124789975,
+        "route_continuity": 0.9979539641943734,
+        "observations": 3911
+      },
+      "optuna_tuned_hist_gradient_boosting_classifier_only_metrics": {
+        "top1_accuracy": 0.6110969061621069,
+        "macro_f1": 0.4441374922765891,
+        "route_continuity": 0.8695652173913043,
+        "observations": 3911
+      },
+      "optuna_tuned_hist_gradient_boosting_viterbi_metrics": {
+        "top1_accuracy": 0.6251598056762976,
+        "macro_f1": 0.4954242902029477,
+        "route_continuity": 0.99846547314578,
+        "observations": 3911
+      }
+    },
+    {
+      "trip_id": "00000091",
+      "observations": 874,
+      "candidate_miss_observations": 0,
+      "baseline_hist_gradient_boosting_classifier_seconds": 0.018215041025541723,
+      "baseline_hist_gradient_boosting_viterbi_seconds": 0.4150999169796705,
+      "optuna_tuned_hist_gradient_boosting_classifier_seconds": 0.04031645902432501,
+      "optuna_tuned_hist_gradient_boosting_viterbi_seconds": 0.4672574159922078,
+      "baseline_hist_gradient_boosting_classifier_only_metrics": {
+        "top1_accuracy": 0.8215102974828375,
+        "macro_f1": 0.638552155154056,
+        "route_continuity": 0.8407789232531501,
+        "observations": 874
+      },
+      "baseline_hist_gradient_boosting_viterbi_metrics": {
+        "top1_accuracy": 0.8546910755148741,
+        "macro_f1": 0.6994609417168922,
+        "route_continuity": 0.9873997709049256,
+        "observations": 874
+      },
+      "optuna_tuned_hist_gradient_boosting_classifier_only_metrics": {
+        "top1_accuracy": 0.8100686498855835,
+        "macro_f1": 0.632939848814338,
+        "route_continuity": 0.847651775486827,
+        "observations": 874
+      },
+      "optuna_tuned_hist_gradient_boosting_viterbi_metrics": {
+        "top1_accuracy": 0.8558352402745996,
+        "macro_f1": 0.6974349533409819,
+        "route_continuity": 0.9862542955326461,
+        "observations": 874
+      }
+    }
+  ],
+  "candidate_miss_rate": 0.0022964509394572024,
+  "tuned_candidate_log_loss": 0.0636384025871809,
+  "metric_scope": {
+    "top1_accuracy_and_macro_f1": "all student-test GPS observations",
+    "candidate_miss_rate": "all student-test GPS observations, reported separately",
+    "candidate_log_loss": "tuned model candidates only where the reference route arc was generated",
+    "inference_time": "feature candidate inputs excluded for classifier scoring; Viterbi time includes its own feature generation and decoding"
+  }
+}

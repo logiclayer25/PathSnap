@@ -1,0 +1,43 @@
+{
+  "candidate_count_requested": 24,
+  "feature_count": 9,
+  "trips": {
+    "train": {
+      "trip_count": 80,
+      "total_observations": 208417,
+      "candidate_miss_rate_weighted": 0.04979440256792872,
+      "candidate_miss_rate_trip_min_median_max": [
+        0.0,
+        0.0,
+        0.6033538672142368
+      ],
+      "nonfinite_feature_values": 0,
+      "invalid_candidate_arc_ids": 0,
+      "max_positive_labels_per_observation": 1
+    },
+    "student_test": {
+      "trip_count": 10,
+      "total_observations": 19160,
+      "candidate_miss_rate_weighted": 0.0022964509394572024,
+      "candidate_miss_rate_trip_min_median_max": [
+        0.0,
+        0.0,
+        0.00833754421424962
+      ],
+      "nonfinite_feature_values": 0,
+      "invalid_candidate_arc_ids": 0,
+      "max_positive_labels_per_observation": 1
+    }
+  },
+  "feature_names": [
+    "point_to_arc_distance_m",
+    "heading_error_rad",
+    "arc_length_m",
+    "along_arc_fraction",
+    "gps_speed_mps",
+    "elapsed_time_progress",
+    "step_displacement_m",
+    "timestamp_gap_s",
+    "heading_alignment_cosine"
+  ]
+}

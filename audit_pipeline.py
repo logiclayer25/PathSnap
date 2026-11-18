@@ -1,4 +1,3 @@
-"""Validate feature and candidate-label generation across train and student-test trips."""
 from __future__ import annotations
 import argparse,csv,json
 from pathlib import Path

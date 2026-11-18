@@ -1,0 +1,2 @@
+model,cv_observation_top1,cv_observation_macro_f1,student_top1,student_macro_f1,student_candidate_log_loss,candidate_miss_rate,route_continuity,train_seconds,inference_seconds
+hist_gradient_boosting,0.687156038135085,0.6452799753249123,0.7404488517745302,0.5508025990759112,0.09344352552969323,0.006419624217118998,0.8901305483028721,7.935852374997921,0.28038520901463926

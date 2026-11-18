@@ -33,4 +33,9 @@ Thumbs.db
 **/evaluator_test/
 **/evaluator_test/**
 
+# Optional expanded copies of the compressed first-viva CSV shards
+submission/first_viva/preprocessed/plain_csv/
+submission/first_viva/preprocessed/train_candidates_*.csv
+artifacts/decoding/evaluator-test-results/
+
 # Keep artifacts, experiment results, plots, and model files trackable.

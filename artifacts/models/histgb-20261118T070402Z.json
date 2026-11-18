@@ -1,0 +1,830 @@
+{
+  "model": "HistGradientBoostingClassifier",
+  "features": [
+    "distance_m",
+    "heading_error_rad",
+    "edge_length_m",
+    "edge_fraction",
+    "gps_speed_mps",
+    "normalized_track_progress",
+    "gps_step_distance_m",
+    "timestamp_gap_s",
+    "heading_alignment_cosine"
+  ],
+  "candidate_count": 24,
+  "training_trip_count": 80,
+  "model_params": {
+    "max_iter": 220,
+    "learning_rate": 0.05066239620098094,
+    "max_leaf_nodes": 31,
+    "l2_regularization": 3.7202418762523783,
+    "random_state": 42,
+    "min_samples_leaf": 35
+  },
+  "tuning_file": "artifacts/tuning/hist_gradient_boosting-20261118T064118Z/summary.json",
+  "candidate_rows": 4752936,
+  "positive_rows": 198039,
+  "unlabeled_observations_excluded": 10378,
+  "training_trips": [
+    {
+      "trip_id": "00000001",
+      "gps_points": 1315,
+      "route_edges": 525,
+      "candidate_rows": 31560,
+      "training_candidates": 30984,
+      "unlabeled_observations": 24,
+      "positive_candidates": 1291,
+      "seconds": 0.59
+    },
+    {
+      "trip_id": "00000002",
+      "gps_points": 7243,
+      "route_edges": 262,
+      "candidate_rows": 173832,
+      "training_candidates": 159504,
+      "unlabeled_observations": 597,
+      "positive_candidates": 6646,
+      "seconds": 0.51
+    },
+    {
+      "trip_id": "00000003",
+      "gps_points": 821,
+      "route_edges": 79,
+      "candidate_rows": 19704,
+      "training_candidates": 19320,
+      "unlabeled_observations": 16,
+      "positive_candidates": 805,
+      "seconds": 0.12
+    },
+    {
+      "trip_id": "00000004",
+      "gps_points": 1064,
+      "route_edges": 320,
+      "candidate_rows": 25536,
+      "training_candidates": 25536,
+      "unlabeled_observations": 0,
+      "positive_candidates": 1064,
+      "seconds": 0.11
+    },
+    {
+      "trip_id": "00000005",
+      "gps_points": 1045,
+      "route_edges": 105,
+      "candidate_rows": 25080,
+      "training_candidates": 25080,
+      "unlabeled_observations": 0,
+      "positive_candidates": 1045,
+      "seconds": 0.07
+    },
+    {
+      "trip_id": "00000006",
+      "gps_points": 1450,
+      "route_edges": 261,
+      "candidate_rows": 34800,
+      "training_candidates": 34800,
+      "unlabeled_observations": 0,
+      "positive_candidates": 1450,
+      "seconds": 0.11
+    },
+    {
+      "trip_id": "00000008",
+      "gps_points": 3093,
+      "route_edges": 173,
+      "candidate_rows": 74232,
+      "training_candidates": 74232,
+      "unlabeled_observations": 0,
+      "positive_candidates": 3093,
+      "seconds": 0.23
+    },
+    {
+      "trip_id": "00000010",
+      "gps_points": 2711,
+      "route_edges": 210,
+      "candidate_rows": 65064,
+      "training_candidates": 65064,
+      "unlabeled_observations": 0,
+      "positive_candidates": 2711,
+      "seconds": 0.22
+    },
+    {
+      "trip_id": "00000011",
+      "gps_points": 2828,
+      "route_edges": 565,
+      "candidate_rows": 67872,
+      "training_candidates": 67512,
+      "unlabeled_observations": 15,
+      "positive_candidates": 2813,
+      "seconds": 0.19
+    },
+    {
+      "trip_id": "00000012",
+      "gps_points": 1608,
+      "route_edges": 205,
+      "candidate_rows": 38592,
+      "training_candidates": 38352,
+      "unlabeled_observations": 10,
+      "positive_candidates": 1598,
+      "seconds": 0.22
+    },
+    {
+      "trip_id": "00000013",
+      "gps_points": 2580,
+      "route_edges": 788,
+      "candidate_rows": 61920,
+      "training_candidates": 61824,
+      "unlabeled_observations": 4,
+      "positive_candidates": 2576,
+      "seconds": 1.12
+    },
+    {
+      "trip_id": "00000014",
+      "gps_points": 448,
+      "route_edges": 164,
+      "candidate_rows": 10752,
+      "training_candidates": 10752,
+      "unlabeled_observations": 0,
+      "positive_candidates": 448,
+      "seconds": 0.05
+    },
+    {
+      "trip_id": "00000016",
+      "gps_points": 1305,
+      "route_edges": 204,
+      "candidate_rows": 31320,
+      "training_candidates": 31320,
+      "unlabeled_observations": 0,
+      "positive_candidates": 1305,
+      "seconds": 0.12
+    },
+    {
+      "trip_id": "00000018",
+      "gps_points": 379,
+      "route_edges": 166,
+      "candidate_rows": 9096,
+      "training_candidates": 9096,
+      "unlabeled_observations": 0,
+      "positive_candidates": 379,
+      "seconds": 0.06
+    },
+    {
+      "trip_id": "00000019",
+      "gps_points": 2354,
+      "route_edges": 545,
+      "candidate_rows": 56496,
+      "training_candidates": 56088,
+      "unlabeled_observations": 17,
+      "positive_candidates": 2337,
+      "seconds": 0.5
+    },
+    {
+      "trip_id": "00000020",
+      "gps_points": 2353,
+      "route_edges": 142,
+      "candidate_rows": 56472,
+      "training_candidates": 56472,
+      "unlabeled_observations": 0,
+      "positive_candidates": 2353,
+      "seconds": 0.17
+    },
+    {
+      "trip_id": "00000021",
+      "gps_points": 15783,
+      "route_edges": 277,
+      "candidate_rows": 378792,
+      "training_candidates": 378792,
+      "unlabeled_observations": 0,
+      "positive_candidates": 15783,
+      "seconds": 0.96
+    },
+    {
+      "trip_id": "00000022",
+      "gps_points": 474,
+      "route_edges": 376,
+      "candidate_rows": 11376,
+      "training_candidates": 11376,
+      "unlabeled_observations": 0,
+      "positive_candidates": 474,
+      "seconds": 0.08
+    },
+    {
+      "trip_id": "00000024",
+      "gps_points": 801,
+      "route_edges": 249,
+      "candidate_rows": 19224,
+      "training_candidates": 19176,
+      "unlabeled_observations": 2,
+      "positive_candidates": 799,
+      "seconds": 0.21
+    },
+    {
+      "trip_id": "00000025",
+      "gps_points": 1179,
+      "route_edges": 283,
+      "candidate_rows": 28296,
+      "training_candidates": 28296,
+      "unlabeled_observations": 0,
+      "positive_candidates": 1179,
+      "seconds": 0.31
+    },
+    {
+      "trip_id": "00000026",
+      "gps_points": 361,
+      "route_edges": 197,
+      "candidate_rows": 8664,
+      "training_candidates": 8664,
+      "unlabeled_observations": 0,
+      "positive_candidates": 361,
+      "seconds": 0.05
+    },
+    {
+      "trip_id": "00000027",
+      "gps_points": 694,
+      "route_edges": 138,
+      "candidate_rows": 16656,
+      "training_candidates": 16656,
+      "unlabeled_observations": 0,
+      "positive_candidates": 694,
+      "seconds": 0.06
+    },
+    {
+      "trip_id": "00000028",
+      "gps_points": 3565,
+      "route_edges": 618,
+      "candidate_rows": 85560,
+      "training_candidates": 84600,
+      "unlabeled_observations": 40,
+      "positive_candidates": 3525,
+      "seconds": 0.59
+    },
+    {
+      "trip_id": "00000029",
+      "gps_points": 733,
+      "route_edges": 204,
+      "candidate_rows": 17592,
+      "training_candidates": 17592,
+      "unlabeled_observations": 0,
+      "positive_candidates": 733,
+      "seconds": 0.1
+    },
+    {
+      "trip_id": "00000031",
+      "gps_points": 4245,
+      "route_edges": 432,
+      "candidate_rows": 101880,
+      "training_candidates": 101400,
+      "unlabeled_observations": 20,
+      "positive_candidates": 4225,
+      "seconds": 0.67
+    },
+    {
+      "trip_id": "00000032",
+      "gps_points": 2464,
+      "route_edges": 819,
+      "candidate_rows": 59136,
+      "training_candidates": 59112,
+      "unlabeled_observations": 1,
+      "positive_candidates": 2463,
+      "seconds": 0.93
+    },
+    {
+      "trip_id": "00000033",
+      "gps_points": 5844,
+      "route_edges": 169,
+      "candidate_rows": 140256,
+      "training_candidates": 55632,
+      "unlabeled_observations": 3526,
+      "positive_candidates": 2318,
+      "seconds": 0.4
+    },
+    {
+      "trip_id": "00000034",
+      "gps_points": 3614,
+      "route_edges": 454,
+      "candidate_rows": 86736,
+      "training_candidates": 86736,
+      "unlabeled_observations": 0,
+      "positive_candidates": 3614,
+      "seconds": 0.34
+    },
+    {
+      "trip_id": "00000035",
+      "gps_points": 1643,
+      "route_edges": 403,
+      "candidate_rows": 39432,
+      "training_candidates": 39432,
+      "unlabeled_observations": 0,
+      "positive_candidates": 1643,
+      "seconds": 0.2
+    },
+    {
+      "trip_id": "00000036",
+      "gps_points": 1368,
+      "route_edges": 156,
+      "candidate_rows": 32832,
+      "training_candidates": 32808,
+      "unlabeled_observations": 1,
+      "positive_candidates": 1367,
+      "seconds": 0.11
+    },
+    {
+      "trip_id": "00000037",
+      "gps_points": 677,
+      "route_edges": 163,
+      "candidate_rows": 16248,
+      "training_candidates": 16248,
+      "unlabeled_observations": 0,
+      "positive_candidates": 677,
+      "seconds": 0.11
+    },
+    {
+      "trip_id": "00000038",
+      "gps_points": 1287,
+      "route_edges": 221,
+      "candidate_rows": 30888,
+      "training_candidates": 30888,
+      "unlabeled_observations": 0,
+      "positive_candidates": 1287,
+      "seconds": 0.19
+    },
+    {
+      "trip_id": "00000039",
+      "gps_points": 363,
+      "route_edges": 161,
+      "candidate_rows": 8712,
+      "training_candidates": 8712,
+      "unlabeled_observations": 0,
+      "positive_candidates": 363,
+      "seconds": 0.03
+    },
+    {
+      "trip_id": "00000041",
+      "gps_points": 1019,
+      "route_edges": 340,
+      "candidate_rows": 24456,
+      "training_candidates": 24456,
+      "unlabeled_observations": 0,
+      "positive_candidates": 1019,
+      "seconds": 0.1
+    },
+    {
+      "trip_id": "00000042",
+      "gps_points": 7739,
+      "route_edges": 1440,
+      "candidate_rows": 185736,
+      "training_candidates": 185736,
+      "unlabeled_observations": 0,
+      "positive_candidates": 7739,
+      "seconds": 0.77
+    },
+    {
+      "trip_id": "00000043",
+      "gps_points": 2322,
+      "route_edges": 427,
+      "candidate_rows": 55728,
+      "training_candidates": 54144,
+      "unlabeled_observations": 66,
+      "positive_candidates": 2256,
+      "seconds": 0.88
+    },
+    {
+      "trip_id": "00000044",
+      "gps_points": 546,
+      "route_edges": 130,
+      "candidate_rows": 13104,
+      "training_candidates": 13104,
+      "unlabeled_observations": 0,
+      "positive_candidates": 546,
+      "seconds": 0.06
+    },
+    {
+      "trip_id": "00000045",
+      "gps_points": 640,
+      "route_edges": 59,
+      "candidate_rows": 15360,
+      "training_candidates": 15216,
+      "unlabeled_observations": 6,
+      "positive_candidates": 634,
+      "seconds": 0.06
+    },
+    {
+      "trip_id": "00000046",
+      "gps_points": 1401,
+      "route_edges": 66,
+      "candidate_rows": 33624,
+      "training_candidates": 33504,
+      "unlabeled_observations": 5,
+      "positive_candidates": 1396,
+      "seconds": 0.09
+    },
+    {
+      "trip_id": "00000047",
+      "gps_points": 1272,
+      "route_edges": 188,
+      "candidate_rows": 30528,
+      "training_candidates": 30528,
+      "unlabeled_observations": 0,
+      "positive_candidates": 1272,
+      "seconds": 0.19
+    },
+    {
+      "trip_id": "00000048",
+      "gps_points": 1240,
+      "route_edges": 149,
+      "candidate_rows": 29760,
+      "training_candidates": 29736,
+      "unlabeled_observations": 1,
+      "positive_candidates": 1239,
+      "seconds": 0.1
+    },
+    {
+      "trip_id": "00000050",
+      "gps_points": 518,
+      "route_edges": 94,
+      "candidate_rows": 12432,
+      "training_candidates": 12432,
+      "unlabeled_observations": 0,
+      "positive_candidates": 518,
+      "seconds": 0.05
+    },
+    {
+      "trip_id": "00000051",
+      "gps_points": 984,
+      "route_edges": 299,
+      "candidate_rows": 23616,
+      "training_candidates": 23616,
+      "unlabeled_observations": 0,
+      "positive_candidates": 984,
+      "seconds": 0.08
+    },
+    {
+      "trip_id": "00000053",
+      "gps_points": 1304,
+      "route_edges": 754,
+      "candidate_rows": 31296,
+      "training_candidates": 31152,
+      "unlabeled_observations": 6,
+      "positive_candidates": 1298,
+      "seconds": 0.48
+    },
+    {
+      "trip_id": "00000054",
+      "gps_points": 19313,
+      "route_edges": 422,
+      "candidate_rows": 463512,
+      "training_candidates": 323952,
+      "unlabeled_observations": 5815,
+      "positive_candidates": 13498,
+      "seconds": 1.67
+    },
+    {
+      "trip_id": "00000055",
+      "gps_points": 2472,
+      "route_edges": 475,
+      "candidate_rows": 59328,
+      "training_candidates": 57672,
+      "unlabeled_observations": 69,
+      "positive_candidates": 2403,
+      "seconds": 0.76
+    },
+    {
+      "trip_id": "00000057",
+      "gps_points": 1645,
+      "route_edges": 300,
+      "candidate_rows": 39480,
+      "training_candidates": 39480,
+      "unlabeled_observations": 0,
+      "positive_candidates": 1645,
+      "seconds": 0.16
+    },
+    {
+      "trip_id": "00000058",
+      "gps_points": 599,
+      "route_edges": 345,
+      "candidate_rows": 14376,
+      "training_candidates": 14352,
+      "unlabeled_observations": 1,
+      "positive_candidates": 598,
+      "seconds": 0.16
+    },
+    {
+      "trip_id": "00000060",
+      "gps_points": 854,
+      "route_edges": 520,
+      "candidate_rows": 20496,
+      "training_candidates": 20496,
+      "unlabeled_observations": 0,
+      "positive_candidates": 854,
+      "seconds": 0.13
+    },
+    {
+      "trip_id": "00000061",
+      "gps_points": 1430,
+      "route_edges": 296,
+      "candidate_rows": 34320,
+      "training_candidates": 33528,
+      "unlabeled_observations": 33,
+      "positive_candidates": 1397,
+      "seconds": 0.12
+    },
+    {
+      "trip_id": "00000062",
+      "gps_points": 3378,
+      "route_edges": 497,
+      "candidate_rows": 81072,
+      "training_candidates": 81072,
+      "unlabeled_observations": 0,
+      "positive_candidates": 3378,
+      "seconds": 0.4
+    },
+    {
+      "trip_id": "00000063",
+      "gps_points": 2781,
+      "route_edges": 565,
+      "candidate_rows": 66744,
+      "training_candidates": 66744,
+      "unlabeled_observations": 0,
+      "positive_candidates": 2781,
+      "seconds": 0.19
+    },
+    {
+      "trip_id": "00000064",
+      "gps_points": 2093,
+      "route_edges": 692,
+      "candidate_rows": 50232,
+      "training_candidates": 50232,
+      "unlabeled_observations": 0,
+      "positive_candidates": 2093,
+      "seconds": 0.27
+    },
+    {
+      "trip_id": "00000066",
+      "gps_points": 4325,
+      "route_edges": 365,
+      "candidate_rows": 103800,
+      "training_candidates": 103800,
+      "unlabeled_observations": 0,
+      "positive_candidates": 4325,
+      "seconds": 0.34
+    },
+    {
+      "trip_id": "00000068",
+      "gps_points": 747,
+      "route_edges": 240,
+      "candidate_rows": 17928,
+      "training_candidates": 17928,
+      "unlabeled_observations": 0,
+      "positive_candidates": 747,
+      "seconds": 0.07
+    },
+    {
+      "trip_id": "00000069",
+      "gps_points": 2067,
+      "route_edges": 467,
+      "candidate_rows": 49608,
+      "training_candidates": 49512,
+      "unlabeled_observations": 4,
+      "positive_candidates": 2063,
+      "seconds": 0.18
+    },
+    {
+      "trip_id": "00000070",
+      "gps_points": 2076,
+      "route_edges": 149,
+      "candidate_rows": 49824,
+      "training_candidates": 49824,
+      "unlabeled_observations": 0,
+      "positive_candidates": 2076,
+      "seconds": 0.14
+    },
+    {
+      "trip_id": "00000071",
+      "gps_points": 850,
+      "route_edges": 186,
+      "candidate_rows": 20400,
+      "training_candidates": 20400,
+      "unlabeled_observations": 0,
+      "positive_candidates": 850,
+      "seconds": 0.09
+    },
+    {
+      "trip_id": "00000072",
+      "gps_points": 969,
+      "route_edges": 131,
+      "candidate_rows": 23256,
+      "training_candidates": 22824,
+      "unlabeled_observations": 18,
+      "positive_candidates": 951,
+      "seconds": 0.08
+    },
+    {
+      "trip_id": "00000074",
+      "gps_points": 1929,
+      "route_edges": 305,
+      "candidate_rows": 46296,
+      "training_candidates": 46272,
+      "unlabeled_observations": 1,
+      "positive_candidates": 1928,
+      "seconds": 0.3
+    },
+    {
+      "trip_id": "00000075",
+      "gps_points": 1628,
+      "route_edges": 108,
+      "candidate_rows": 39072,
+      "training_candidates": 39072,
+      "unlabeled_observations": 0,
+      "positive_candidates": 1628,
+      "seconds": 0.11
+    },
+    {
+      "trip_id": "00000078",
+      "gps_points": 2909,
+      "route_edges": 1765,
+      "candidate_rows": 69816,
+      "training_candidates": 69816,
+      "unlabeled_observations": 0,
+      "positive_candidates": 2909,
+      "seconds": 0.66
+    },
+    {
+      "trip_id": "00000079",
+      "gps_points": 689,
+      "route_edges": 182,
+      "candidate_rows": 16536,
+      "training_candidates": 16512,
+      "unlabeled_observations": 1,
+      "positive_candidates": 688,
+      "seconds": 0.23
+    },
+    {
+      "trip_id": "00000080",
+      "gps_points": 2510,
+      "route_edges": 139,
+      "candidate_rows": 60240,
+      "training_candidates": 60240,
+      "unlabeled_observations": 0,
+      "positive_candidates": 2510,
+      "seconds": 0.23
+    },
+    {
+      "trip_id": "00000081",
+      "gps_points": 3224,
+      "route_edges": 778,
+      "candidate_rows": 77376,
+      "training_candidates": 77184,
+      "unlabeled_observations": 8,
+      "positive_candidates": 3216,
+      "seconds": 0.24
+    },
+    {
+      "trip_id": "00000082",
+      "gps_points": 4268,
+      "route_edges": 204,
+      "candidate_rows": 102432,
+      "training_candidates": 102144,
+      "unlabeled_observations": 12,
+      "positive_candidates": 4256,
+      "seconds": 0.51
+    },
+    {
+      "trip_id": "00000083",
+      "gps_points": 1507,
+      "route_edges": 143,
+      "candidate_rows": 36168,
+      "training_candidates": 36168,
+      "unlabeled_observations": 0,
+      "positive_candidates": 1507,
+      "seconds": 0.16
+    },
+    {
+      "trip_id": "00000084",
+      "gps_points": 16031,
+      "route_edges": 627,
+      "candidate_rows": 384744,
+      "training_candidates": 384744,
+      "unlabeled_observations": 0,
+      "positive_candidates": 16031,
+      "seconds": 1.15
+    },
+    {
+      "trip_id": "00000085",
+      "gps_points": 1092,
+      "route_edges": 170,
+      "candidate_rows": 26208,
+      "training_candidates": 26208,
+      "unlabeled_observations": 0,
+      "positive_candidates": 1092,
+      "seconds": 0.08
+    },
+    {
+      "trip_id": "00000086",
+      "gps_points": 4143,
+      "route_edges": 671,
+      "candidate_rows": 99432,
+      "training_candidates": 99432,
+      "unlabeled_observations": 0,
+      "positive_candidates": 4143,
+      "seconds": 1.0
+    },
+    {
+      "trip_id": "00000088",
+      "gps_points": 876,
+      "route_edges": 163,
+      "candidate_rows": 21024,
+      "training_candidates": 21024,
+      "unlabeled_observations": 0,
+      "positive_candidates": 876,
+      "seconds": 0.14
+    },
+    {
+      "trip_id": "00000089",
+      "gps_points": 1228,
+      "route_edges": 265,
+      "candidate_rows": 29472,
+      "training_candidates": 29424,
+      "unlabeled_observations": 2,
+      "positive_candidates": 1226,
+      "seconds": 0.17
+    },
+    {
+      "trip_id": "00000090",
+      "gps_points": 536,
+      "route_edges": 235,
+      "candidate_rows": 12864,
+      "training_candidates": 12864,
+      "unlabeled_observations": 0,
+      "positive_candidates": 536,
+      "seconds": 0.06
+    },
+    {
+      "trip_id": "00000092",
+      "gps_points": 7892,
+      "route_edges": 2266,
+      "candidate_rows": 189408,
+      "training_candidates": 189408,
+      "unlabeled_observations": 0,
+      "positive_candidates": 7892,
+      "seconds": 0.66
+    },
+    {
+      "trip_id": "00000093",
+      "gps_points": 1211,
+      "route_edges": 590,
+      "candidate_rows": 29064,
+      "training_candidates": 28320,
+      "unlabeled_observations": 31,
+      "positive_candidates": 1180,
+      "seconds": 0.31
+    },
+    {
+      "trip_id": "00000095",
+      "gps_points": 1551,
+      "route_edges": 306,
+      "candidate_rows": 37224,
+      "training_candidates": 37152,
+      "unlabeled_observations": 3,
+      "positive_candidates": 1548,
+      "seconds": 0.11
+    },
+    {
+      "trip_id": "00000096",
+      "gps_points": 3271,
+      "route_edges": 456,
+      "candidate_rows": 78504,
+      "training_candidates": 77952,
+      "unlabeled_observations": 23,
+      "positive_candidates": 3248,
+      "seconds": 0.29
+    },
+    {
+      "trip_id": "00000097",
+      "gps_points": 1740,
+      "route_edges": 444,
+      "candidate_rows": 41760,
+      "training_candidates": 41760,
+      "unlabeled_observations": 0,
+      "positive_candidates": 1740,
+      "seconds": 0.26
+    },
+    {
+      "trip_id": "00000098",
+      "gps_points": 5584,
+      "route_edges": 1003,
+      "candidate_rows": 134016,
+      "training_candidates": 134016,
+      "unlabeled_observations": 0,
+      "positive_candidates": 5584,
+      "seconds": 0.61
+    },
+    {
+      "trip_id": "00000099",
+      "gps_points": 2322,
+      "route_edges": 886,
+      "candidate_rows": 55728,
+      "training_candidates": 55728,
+      "unlabeled_observations": 0,
+      "positive_candidates": 2322,
+      "seconds": 0.33
+    }
+  ]
+}
