@@ -1,4 +1,4 @@
-"""FastAPI service for PathSnap map matching."""
+"""FastAPI service for PathSnap map matching.  """
 from __future__ import annotations
 
 from contextlib import asynccontextmanager
