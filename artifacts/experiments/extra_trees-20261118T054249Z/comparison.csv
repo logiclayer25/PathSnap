@@ -1,0 +1,2 @@
+model,cv_observation_top1,cv_observation_macro_f1,student_top1,student_macro_f1,student_candidate_log_loss,candidate_miss_rate,route_continuity,train_seconds,inference_seconds
+extra_trees,0.6712456277558932,0.6106227509208154,0.7171189979123174,0.503036395059354,0.2578524390133513,0.0022964509394572024,0.8449608355091384,25.125466334051453,0.2288936241529882

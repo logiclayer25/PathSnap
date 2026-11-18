@@ -1,0 +1,115 @@
+{
+  "source": "Student folder",
+  "trip_count": 90,
+  "partitions": {
+    "train": {
+      "trips": 80,
+      "track_rows": {
+        "min": 361,
+        "median": 1529.0,
+        "max": 19313
+      },
+      "nodes": {
+        "min": 299,
+        "median": 9608.0,
+        "max": 155003
+      },
+      "arcs": {
+        "min": 649,
+        "median": 19526.5,
+        "max": 307392
+      },
+      "route_rows": {
+        "min": 59,
+        "median": 280.0,
+        "max": 2266
+      },
+      "timestamp_step_median_s": {
+        "min": 1.0,
+        "median": 1.0,
+        "max": 1.0
+      },
+      "trips_missing_files": 0,
+      "invalid_coordinate_rows": 0,
+      "timestamp_nonincreasing_steps": 0,
+      "timestamp_non_1s_steps": 7284,
+      "timestamp_gaps_gt_1s_steps": 7284,
+      "timestamp_gaps_gt_5s_steps": 1216,
+      "invalid_arc_node_references": 0,
+      "invalid_route_arc_references": 0,
+      "route_connected_step_fraction": {
+        "min": 0.9813084112149533,
+        "median": 1.0,
+        "max": 1.0
+      },
+      "timestamp_exact_1s_fraction": {
+        "min": 0.5306553911205074,
+        "median": 0.9914387810304783,
+        "max": 1.0
+      },
+      "weak_component_count": {
+        "min": 1,
+        "median": 20.0,
+        "max": 421
+      }
+    },
+    "student_test": {
+      "trips": 10,
+      "track_rows": {
+        "min": 262,
+        "median": 1420.0,
+        "max": 3958
+      },
+      "nodes": {
+        "min": 1770,
+        "median": 6596.5,
+        "max": 26635
+      },
+      "arcs": {
+        "min": 3577,
+        "median": 13145.0,
+        "max": 56027
+      },
+      "route_rows": {
+        "min": 95,
+        "median": 250.0,
+        "max": 1323
+      },
+      "timestamp_step_median_s": {
+        "min": 1.0,
+        "median": 1.0,
+        "max": 1.0
+      },
+      "trips_missing_files": 0,
+      "invalid_coordinate_rows": 0,
+      "timestamp_nonincreasing_steps": 0,
+      "timestamp_non_1s_steps": 264,
+      "timestamp_gaps_gt_1s_steps": 264,
+      "timestamp_gaps_gt_5s_steps": 44,
+      "invalid_arc_node_references": 0,
+      "invalid_route_arc_references": 0,
+      "route_connected_step_fraction": {
+        "min": 0.9973190348525469,
+        "median": 1.0,
+        "max": 1.0
+      },
+      "timestamp_exact_1s_fraction": {
+        "min": 0.8612794612794613,
+        "median": 0.9993230606354611,
+        "max": 1.0
+      },
+      "weak_component_count": {
+        "min": 5,
+        "median": 11.0,
+        "max": 100
+      }
+    }
+  },
+  "file_formats": {
+    ".track": "longitude, latitude, timestamp in seconds (per supplied data guide)",
+    ".nodes": "longitude, latitude; 0-based row index is node id",
+    ".arcs": "from_node_id, to_node_id; 0-based row index is arc id",
+    ".route": "chronological arc_id sequence, where provided"
+  },
+  "checks": "Missing files, row/column counts, finite values, coordinate range, timestamp ordering/gaps, node references, isolated nodes, weak components, route references and route adjacency."
+}

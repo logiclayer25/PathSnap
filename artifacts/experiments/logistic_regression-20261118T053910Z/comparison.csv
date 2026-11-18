@@ -1,0 +1,2 @@
+model,cv_observation_top1,cv_observation_macro_f1,student_top1,student_macro_f1,student_candidate_log_loss,candidate_miss_rate,route_continuity,train_seconds,inference_seconds
+logistic_regression,0.5130531578518067,0.36122749321789305,0.5623695198329853,0.28044835523808664,0.4353872835636139,0.0022964509394572024,0.8075718015665796,2.066010499955155,0.012341207941062748

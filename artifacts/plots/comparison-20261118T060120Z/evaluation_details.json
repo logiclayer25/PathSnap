@@ -1,0 +1,161 @@
+{
+  "run_id": "comparison-20261118T060120Z",
+  "candidate_count": 24,
+  "models": {
+    "logistic_regression": {
+      "candidate_confusion_matrix": [
+        [
+          333867,
+          105801
+        ],
+        [
+          1340,
+          17776
+        ]
+      ],
+      "candidate_precision": 0.14384553760003885,
+      "candidate_recall": 0.9299016530654949,
+      "candidate_f1": 0.24915027366444045,
+      "candidate_macro_f1": 0.5554407603198795,
+      "candidate_log_loss": 0.4353872835636139,
+      "observation_top1_accuracy": 0.5623695198329853,
+      "route_continuity": 0.8075718015665796,
+      "feature_importance": [
+        8.012803077697754,
+        1.4066582918167114,
+        0.5508608222007751,
+        0.24591150879859924,
+        0.2363753616809845,
+        0.030220545828342438,
+        0.07139065861701965,
+        0.0009604151709936559,
+        0.710167646408081
+      ],
+      "feature_importance_method": "absolute standardized logistic coefficients"
+    },
+    "gaussian_naive_bayes": {
+      "candidate_confusion_matrix": [
+        [
+          430683,
+          8985
+        ],
+        [
+          9174,
+          9942
+        ]
+      ],
+      "candidate_precision": 0.5252813441115867,
+      "candidate_recall": 0.5200878844946641,
+      "candidate_f1": 0.5226717135872565,
+      "candidate_macro_f1": 0.7510126709831055,
+      "candidate_log_loss": 0.2124166637659073,
+      "observation_top1_accuracy": 0.5771398747390397,
+      "route_continuity": 0.7514360313315926,
+      "feature_importance": [
+        0.5956297516822815,
+        0.5641518235206604,
+        0.2804345488548279,
+        0.020616499707102776,
+        0.00016108011186588556,
+        0.00015928760694805533,
+        0.0001555334310978651,
+        4.6320430824309256e-10,
+        0.5542245507240295
+      ],
+      "feature_importance_method": "Gaussian NB standardized mean difference"
+    },
+    "decision_tree": {
+      "candidate_confusion_matrix": [
+        [
+          411914,
+          27754
+        ],
+        [
+          1482,
+          17634
+        ]
+      ],
+      "candidate_precision": 0.3885167885784789,
+      "candidate_recall": 0.9224733207784055,
+      "candidate_f1": 0.546756790276572,
+      "candidate_macro_f1": 0.7562425178770253,
+      "candidate_log_loss": 0.17819674319620293,
+      "observation_top1_accuracy": 0.7306367432150314,
+      "route_continuity": 0.8864229765013055,
+      "feature_importance": [
+        0.7405988235760984,
+        0.012735444225318571,
+        0.1209824061009354,
+        0.10842261705559733,
+        0.0009933749117966711,
+        0.0015787982150681202,
+        0.010248072644833862,
+        0.0,
+        0.004440463270351583
+      ],
+      "feature_importance_method": "native impurity importance"
+    },
+    "extra_trees": {
+      "candidate_confusion_matrix": [
+        [
+          405175,
+          34493
+        ],
+        [
+          1586,
+          17530
+        ]
+      ],
+      "candidate_precision": 0.3369663418103531,
+      "candidate_recall": 0.9170328520611006,
+      "candidate_f1": 0.4928379651105582,
+      "candidate_macro_f1": 0.7251065038949307,
+      "candidate_log_loss": 0.25785243901335136,
+      "observation_top1_accuracy": 0.7171189979123174,
+      "route_continuity": 0.8449608355091384,
+      "feature_importance": [
+        0.24234561684606265,
+        0.0925718999954157,
+        0.04065066707458715,
+        0.4905476662657392,
+        0.02035187623994509,
+        0.004177054828885078,
+        0.009951643880017109,
+        0.00013973575387596842,
+        0.09926383911547208
+      ],
+      "feature_importance_method": "native impurity importance"
+    },
+    "hist_gradient_boosting": {
+      "candidate_confusion_matrix": [
+        [
+          434737,
+          4931
+        ],
+        [
+          6046,
+          13070
+        ]
+      ],
+      "candidate_precision": 0.7260707738458975,
+      "candidate_recall": 0.6837204436074492,
+      "candidate_f1": 0.7042595037314439,
+      "candidate_macro_f1": 0.845896014837767,
+      "candidate_log_loss": 0.06336981839181435,
+      "observation_top1_accuracy": 0.7411795407098121,
+      "route_continuity": 0.8908093994778068,
+      "feature_importance": [
+        0.6380865639355527,
+        0.24941144994072792,
+        0.04718757289929069,
+        0.39422868692989493,
+        0.0005783500094903748,
+        0.00153339922163447,
+        0.02515285923138369,
+        1.3405802136210823e-05,
+        0.014010481937735766
+      ],
+      "feature_importance_method": "student-test permutation average-precision importance (diagnostic only)"
+    }
+  }
+}

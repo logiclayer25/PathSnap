@@ -1,0 +1,2 @@
+model,cv_observation_top1,cv_observation_macro_f1,student_top1,student_macro_f1,student_candidate_log_loss,candidate_miss_rate,route_continuity,train_seconds,inference_seconds
+gaussian_naive_bayes,0.5435257200708196,0.46243739123213146,0.5771398747390397,0.3744560707790888,0.2124166637659073,0.0022964509394572024,0.7514360313315926,0.2888387499842793,0.024650205858051777

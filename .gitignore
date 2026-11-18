@@ -1,0 +1,36 @@
+# Python bytecode and tooling
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
+# Virtual environments
+.venv/
+venv/
+env/
+
+# Local secrets and machine-specific configuration
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+secrets.*
+
+# Operating-system and editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+
+# Temporary files and logs
+*.tmp
+*.swp
+*.log
+
+# Never commit reserved evaluator data or labels
+**/evaluator_test/
+**/evaluator_test/**
+
+# Keep artifacts, experiment results, plots, and model files trackable.
