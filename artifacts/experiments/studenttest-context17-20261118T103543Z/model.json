@@ -1,0 +1,43 @@
+{
+  "model": "HistGradientBoostingClassifier",
+  "feature_count": 17,
+  "feature_names": [
+    "point_to_arc_distance_m",
+    "heading_error_rad",
+    "arc_length_m",
+    "along_arc_fraction",
+    "gps_speed_mps",
+    "elapsed_time_progress",
+    "step_displacement_m",
+    "timestamp_gap_s",
+    "heading_alignment_cosine",
+    "smoothed_heading_error_rad",
+    "previous_point_to_arc_distance_m",
+    "next_point_to_arc_distance_m",
+    "neighbor_mean_point_to_arc_distance_m",
+    "point_two_samples_back_to_arc_distance_m",
+    "point_two_samples_ahead_to_arc_distance_m",
+    "five_point_window_minimum_distance_m",
+    "five_point_window_mean_distance_m"
+  ],
+  "candidate_count": 40,
+  "negative_candidates_per_observation": 24,
+  "context_radius": 2,
+  "training_trip_count": 80,
+  "training_observations": 208417,
+  "candidate_misses": 6512,
+  "candidate_miss_rate": 0.03124505198712197,
+  "sampled_training_rows": 5047625,
+  "fit_seconds": 23.7800364169525,
+  "model_params": {
+    "max_iter": 220,
+    "learning_rate": 0.05066239620098094,
+    "max_leaf_nodes": 31,
+    "l2_regularization": 3.7202418762523783,
+    "min_samples_leaf": 35,
+    "random_state": 42
+  },
+  "tuning_run_id": "hist_gradient_boosting-20261118T064118Z",
+  "selected_by": "five-fold GroupKFold CV on 80 training trips; 76.8114% Top-1",
+  "artifact_path": "artifacts/models/histgb-context17-20261118T103543Z.pkl"
+}

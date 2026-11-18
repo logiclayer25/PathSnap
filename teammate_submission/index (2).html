@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PathSnap Evaluator</title>
+<style>
+  :root{--ink:#15222f;--muted:#536575;--line:#d5dee5;--bg:#f3f6f8;--card:#fff;--brand:#146b91;--ok:#1b7f4b;--bad:#b3261e;
+        font-family:Inter,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;color:var(--ink);background:var(--bg)}
+  @media(prefers-color-scheme:dark){:root{--ink:#e6edf2;--muted:#98a9b6;--line:#2c3d4a;--bg:#0f1b24;--card:#16262f;--brand:#4fb3d9}}
+  *{box-sizing:border-box} body{margin:0;padding:20px}
+  main{max-width:1250px;margin:auto}
+  header{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin-bottom:14px}
+  h1{margin:0;font-size:22px} h2{margin:0 0 10px;font-size:15px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+  .layout{display:grid;grid-template-columns:340px 1fr;gap:16px;align-items:start}
+  label{display:block;font-weight:600;font-size:13px;margin:10px 0 4px}
+  input,select{width:100%;border:1px solid var(--line);border-radius:8px;padding:9px;font:14px inherit;background:var(--card);color:var(--ink)}
+  button{background:var(--brand);color:#fff;border:0;border-radius:8px;padding:10px 14px;font-weight:700;cursor:pointer;margin-top:12px;width:100%}
+  button.secondary{background:transparent;color:var(--brand);border:1px solid var(--brand);width:auto;margin:0;padding:6px 10px}
+  button:disabled{opacity:.5;cursor:not-allowed}
+  .tabs{display:flex;gap:6px;margin-bottom:8px}
+  .tab{flex:1;padding:8px;border:1px solid var(--line);border-radius:8px;background:transparent;color:var(--ink);margin:0;font-weight:600}
+  .tab.active{background:var(--brand);color:#fff;border-color:var(--brand)}
+  .pill{display:inline-flex;align-items:center;gap:6px;font-size:13px;padding:4px 10px;border-radius:99px;border:1px solid var(--line)}
+  .dot{width:9px;height:9px;border-radius:50%;background:#999}.dot.ok{background:var(--ok)}.dot.bad{background:var(--bad)}
+  #status{min-height:20px;margin-top:10px;font-size:13px;font-weight:600}
+  #status.err{color:var(--bad)} #status.ok{color:var(--ok)}
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin-bottom:12px}
+  .stat{border:1px solid var(--line);border-radius:10px;padding:10px}
+  .stat b{display:block;font-size:20px}.stat span{font-size:12px;color:var(--muted)}
+  iframe{width:100%;height:560px;border:1px solid var(--line);border-radius:10px;background:#fff}
+  .placeholder{height:560px;display:grid;place-items:center;color:var(--muted);border:1px dashed var(--line);border-radius:10px;text-align:center;padding:20px}
+  pre{white-space:pre-wrap;overflow-wrap:anywhere;background:#102532;color:#e8f2f7;padding:12px;border-radius:8px;max-height:260px;overflow:auto;font-size:12px}
+  details{margin-top:12px} summary{cursor:pointer;font-weight:600;font-size:13px}
+  small{color:var(--muted)} .hidden{display:none}
+  @media(max-width:860px){.layout{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>PathSnap Evaluator</h1>
+    <span class="pill"><span id="dot" class="dot"></span><span id="health">API not checked</span></span>
+  </header>
+
+  <div class="layout">
+    <aside class="card">
+      <h2>1. Connect</h2>
+      <label for="api">Laptop 1 API address</label>
+      <input id="api" value="http://127.0.0.1:8000" autocomplete="off">
+      <button id="connect" class="secondary" style="margin-top:8px">Check connection</button>
+
+      <h2 style="margin-top:20px">2. Choose a trip</h2>
+      <div class="tabs">
+        <button class="tab active" data-tab="eval">Evaluation trips</button>
+        <button class="tab" data-tab="upload">Upload GPS</button>
+      </div>
+
+      <div id="tab-eval">
+        <label for="trip">Evaluation trip</label>
+        <select id="trip"><option value="">Connect to load trips…</option></select>
+      </div>
+
+      <div id="tab-upload" class="hidden">
+        <label for="files">Trip files</label>
+        <input id="files" type="file" multiple accept=".json,.track,.nodes,.arcs">
+        <small>Either one JSON file (<code>track</code>, <code>nodes</code>, <code>arcs</code>) or the three files <code>.track</code>, <code>.nodes</code>, <code>.arcs</code> together.</small>
+        <div id="fileinfo" style="margin-top:6px;font-size:13px"></div>
+      </div>
+
+      <details>
+        <summary>Advanced settings</summary>
+        <label for="candidates">Road candidates per GPS point (1–64)</label>
+        <input id="candidates" type="number" min="1" max="64" value="24">
+        <label for="transition">Transition weight (0–10)</label>
+        <input id="transition" type="number" min="0" max="10" step="0.1" value="0">
+      </details>
+
+      <button id="run" disabled>Match route</button>
+      <div id="status" role="status"></div>
+    </aside>
+
+    <section class="card">
+      <h2>Results</h2>
+      <div id="stats" class="stats hidden"></div>
+      <div id="mapbox"><div class="placeholder">Select a trip and click “Match route”.<br>The map shows GPS points, nearby roads and the predicted route.</div></div>
+      <details id="raw" class="hidden"><summary>Raw API response</summary><pre id="json"></pre></details>
+    </section>
+  </div>
+</main>
+
+<script>
+const $ = id => document.getElementById(id);
+let mode = 'eval', uploaded = null, connected = false;
+const base = () => $('api').value.trim().replace(/\/+$/, '');
+
+function setStatus(msg, kind = '') { $('status').textContent = msg; $('status').className = kind; }
+function refreshRun() { $('run').disabled = !connected || (mode === 'eval' ? !$('trip').value : !uploaded); }
+
+document.querySelectorAll('.tab').forEach(b => b.addEventListener('click', () => {
+  mode = b.dataset.tab;
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t === b));
+  $('tab-eval').classList.toggle('hidden', mode !== 'eval');
+  $('tab-upload').classList.toggle('hidden', mode !== 'upload');
+  refreshRun();
+}));
+$('trip').addEventListener('change', refreshRun);
+
+// Human-readable error from a failed API response
+async function apiError(resp) {
+  let detail = '';
+  try { const j = await resp.json(); detail = Array.isArray(j.detail)
+        ? j.detail.map(d => `${(d.loc || []).slice(1).join('.')}: ${d.msg}`).join('; ') : (j.detail || ''); } catch (_) {}
+  return `API error ${resp.status}${detail ? ': ' + detail : ''}`;
+}
+
+async function connect() {
+  connected = false; $('dot').className = 'dot'; $('health').textContent = 'Connecting…';
+  try {
+    const h = await fetch(base() + '/health'); if (!h.ok) throw new Error(`HTTP ${h.status}`);
+    const hj = await h.json();
+    connected = true;
+    $('dot').className = 'dot ' + (hj.model_loaded ? 'ok' : 'bad');
+    $('health').textContent = hj.model_loaded ? 'API connected · model loaded' : 'API connected · MODEL NOT LOADED';
+    if (!hj.model_loaded) setStatus('Server is up but the model is not loaded' + (hj.model_error ? ': ' + hj.model_error : '.'), 'err');
+    else setStatus('');
+    const t = await (await fetch(base() + '/trips')).json();
+    const sel = $('trip');
+    sel.innerHTML = t.trips.length ? '<option value="">Select a trip…</option>' + t.trips.map(i => `<option>${i}</option>`).join('')
+                                   : '<option value="">No evaluation trips on server</option>';
+    if (!t.trips.length && t.note) setStatus(t.note, 'err');
+  } catch (e) {
+    $('dot').className = 'dot bad'; $('health').textContent = 'Cannot reach API';
+    setStatus(`Cannot reach ${base()} — check the IP address, that the server is running with --host 0.0.0.0, and the firewall.`, 'err');
+  }
+  refreshRun();
+}
+$('connect').addEventListener('click', connect);
+
+// ---- upload parsing ----
+const parseNums = (text, name) => text.split(/\r?\n/).map(l => l.trim()).filter(Boolean).map((l, i) => {
+  const row = l.split(/[\s,;]+/).map(Number);
+  if (row.some(Number.isNaN)) throw new Error(`${name}: line ${i + 1} is not numeric`);
+  return row;
+});
+$('files').addEventListener('change', async ev => {
+  uploaded = null; $('fileinfo').textContent = '';
+  try {
+    const files = [...ev.target.files]; if (!files.length) return refreshRun();
+    const json = files.find(f => f.name.endsWith('.json'));
+    let trip;
+    if (json) {
+      trip = JSON.parse(await json.text());
+      if (!trip.track || !trip.nodes || !trip.arcs) throw new Error('JSON must contain track, nodes and arcs');
+    } else {
+      const get = ext => files.find(f => f.name.endsWith('.' + ext));
+      const miss = ['track', 'nodes', 'arcs'].filter(e => !get(e));
+      if (miss.length) throw new Error('Missing file(s): .' + miss.join(', .'));
+      trip = { trip_id: get('track').name.replace(/\.track$/, ''),
+               track: parseNums(await get('track').text(), '.track'),
+               nodes: parseNums(await get('nodes').text(), '.nodes'),
+               arcs: parseNums(await get('arcs').text(), '.arcs').map(r => r.slice(0, 2)) };
+    }
+    uploaded = trip;
+    $('fileinfo').textContent = `✓ ${trip.track.length} GPS points, ${trip.nodes.length} nodes, ${trip.arcs.length} arcs`;
+    setStatus('');
+  } catch (e) { setStatus(String(e.message || e), 'err'); }
+  refreshRun();
+});
+
+// ---- run ----
+function renderStats(r, extra) {
+  const items = [['GPS points', r.matched_arc_indices.length], ['Roads in route', r.route.length],
+                 ['Candidates / point', r.candidate_count], ...extra];
+  $('stats').innerHTML = items.map(([k, v]) => `<div class="stat"><b>${v}</b><span>${k}</span></div>`).join('');
+  $('stats').classList.remove('hidden');
+}
+
+$('run').addEventListener('click', async () => {
+  $('run').disabled = true; setStatus('Matching route…'); $('raw').classList.add('hidden');
+  const q = `candidate_count=${+$('candidates').value}&transition_weight=${+$('transition').value}`;
+  const body = mode === 'upload' ? JSON.stringify({ ...uploaded, candidate_count: +$('candidates').value,
+                                                    transition_weight: +$('transition').value }) : null;
+  const post = (url) => fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body });
+  try {
+    const t0 = performance.now();
+    const id = $('trip').value;
+    const [pred, map] = mode === 'eval'
+      ? await Promise.all([post(`${base()}/trips/${id}/predict?${q}`), fetch(`${base()}/trips/${id}/map?${q}`)])
+      : await Promise.all([post(`${base()}/predict`), post(`${base()}/map`)]);
+    if (!pred.ok) throw new Error(await apiError(pred));
+    if (!map.ok) throw new Error(await apiError(map));
+    const result = await pred.json(), html = await map.text();
+    const secs = ((performance.now() - t0) / 1000).toFixed(1);
+    renderStats(result, [['Round trip (s)', secs]]);
+    $('mapbox').innerHTML = '<iframe id="mapframe" title="Route map"></iframe>';
+    $('mapframe').srcdoc = html;
+    $('json').textContent = JSON.stringify(result, null, 2); $('raw').classList.remove('hidden');
+    setStatus(`Done: ${result.matched_arc_indices.length} GPS points matched in ${secs}s.`, 'ok');
+  } catch (e) {
+    setStatus(String(e.message || e), 'err');
+  } finally { refreshRun(); }
+});
+
+connect();
+</script>
+</body>
+</html>

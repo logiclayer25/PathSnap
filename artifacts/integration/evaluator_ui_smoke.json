@@ -1,0 +1,31 @@
+{
+  "api_model": "artifacts/models/histgb-context17-20261118T103543Z.pkl",
+  "dataset_split": "evaluator_test",
+  "candidate_count": 40,
+  "transition_weight": 0.0,
+  "reference_route_loaded": false,
+  "ui_trip": {
+    "trip_id": "00000017",
+    "matched_observations": 1346,
+    "predicted_route_arcs": 631,
+    "browser_round_trip_seconds": 5.0,
+    "map_rendered_without_reference_route": true
+  },
+  "all_trip_prediction_smoke": {
+    "all_ten_succeeded": true,
+    "elapsed_seconds": 14.9,
+    "trips": [
+      {"trip_id": "00000015", "observations": 6854, "predicted_route_arcs": 2398},
+      {"trip_id": "00000017", "observations": 1346, "predicted_route_arcs": 631},
+      {"trip_id": "00000023", "observations": 458, "predicted_route_arcs": 61},
+      {"trip_id": "00000030", "observations": 654, "predicted_route_arcs": 299},
+      {"trip_id": "00000049", "observations": 2642, "predicted_route_arcs": 413},
+      {"trip_id": "00000059", "observations": 1031, "predicted_route_arcs": 375},
+      {"trip_id": "00000067", "observations": 916, "predicted_route_arcs": 96},
+      {"trip_id": "00000073", "observations": 1144, "predicted_route_arcs": 238},
+      {"trip_id": "00000087", "observations": 1399, "predicted_route_arcs": 444},
+      {"trip_id": "00000094", "observations": 3230, "predicted_route_arcs": 743}
+    ]
+  },
+  "ground_truth_metrics_computed": false
+}

@@ -377,9 +377,15 @@ def network_viterbi_path(trip: Trip, arc_ids: np.ndarray, obs_ids: np.ndarray,
 
 
 def decode(trip: Trip, model: Any, candidate_count: int = 12,
-           transition_weight: float = 1.5) -> dict[str, Any]:
+           transition_weight: float = 1.5, context_radius: int = 0) -> dict[str, Any]:
     graph = ProjectedGraph(trip)
     features, arc_ids, obs_ids = candidate_inputs(trip, candidate_count)
+    if context_radius:
+        from trajectory_context import add_local_features
+        features = add_local_features(trip, features, arc_ids, obs_ids, context_radius)
+    expected_features = getattr(model, 'n_features_in_', features.shape[1])
+    if features.shape[1] != expected_features:
+        raise ValueError(f'Model expects {expected_features} features but pipeline produced {features.shape[1]}')
     probabilities = model.predict_proba(features)
     classes = list(model.classes_) if hasattr(model, 'classes_') else list(model[-1].classes_)
     if 1 in classes:

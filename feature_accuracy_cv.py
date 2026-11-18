@@ -13,7 +13,8 @@ from sklearn.ensemble import HistGradientBoostingClassifier
 from sklearn.model_selection import GroupKFold
 
 from experiments import route_level_metrics, top1_per_observation
-from pathsnap import ProjectedGraph, Trip, candidate_examples, labeled_candidate_mask, viterbi_candidate_paths
+from pathsnap import Trip, candidate_examples, labeled_candidate_mask, viterbi_candidate_paths
+from trajectory_context import add_local_features
 
 
 FEATURE_NAMES = [
@@ -23,48 +24,6 @@ FEATURE_NAMES = [
     'previous_point_to_arc_distance_m', 'next_point_to_arc_distance_m',
     'neighbor_mean_point_to_arc_distance_m',
 ]
-
-
-def add_local_features(trip: Trip, x: np.ndarray, arc_ids: np.ndarray,
-                       obs_ids: np.ndarray) -> np.ndarray:
-    graph = ProjectedGraph(trip)
-    starts = np.r_[0, np.flatnonzero(obs_ids[1:] != obs_ids[:-1]) + 1]
-    ends = np.r_[starts[1:], len(obs_ids)]
-    extras = np.empty((len(obs_ids), 4), dtype=np.float32)
-    for point_index, (start, end) in enumerate(zip(starts, ends)):
-        edge_ids = arc_ids[start:end]
-        previous_index = max(0, point_index - 1)
-        next_index = min(len(graph.track_xy) - 1, point_index + 1)
-        previous_point = graph.track_xy[previous_index]
-        next_point = graph.track_xy[next_index]
-        edge_vec = graph.vec[edge_ids]
-        edge_start = graph.start[edge_ids]
-        denominator = np.sum(edge_vec * edge_vec, axis=1).clip(1e-8)
-
-        previous_delta = previous_point[None, :] - edge_start
-        previous_fraction = np.clip(np.sum(previous_delta * edge_vec, axis=1) / denominator, 0.0, 1.0)
-        previous_projection = edge_start + previous_fraction[:, None] * edge_vec
-        previous_distance = np.linalg.norm(previous_projection - previous_point, axis=1)
-
-        next_delta = next_point[None, :] - edge_start
-        next_fraction = np.clip(np.sum(next_delta * edge_vec, axis=1) / denominator, 0.0, 1.0)
-        next_projection = edge_start + next_fraction[:, None] * edge_vec
-        next_distance = np.linalg.norm(next_projection - next_point, axis=1)
-
-        wide_previous = max(0, point_index - 2)
-        wide_next = min(len(graph.track_xy) - 1, point_index + 2)
-        direction = graph.track_xy[wide_next] - graph.track_xy[wide_previous]
-        if np.linalg.norm(direction) < 1.0:
-            heading_error = np.full(end - start, np.pi / 2, dtype=np.float64)
-        else:
-            heading = np.arctan2(direction[1], direction[0])
-            angle = np.abs((graph.heading[edge_ids] - heading + np.pi) % (2 * np.pi) - np.pi)
-            heading_error = angle
-        extras[start:end, 0] = heading_error
-        extras[start:end, 1] = previous_distance
-        extras[start:end, 2] = next_distance
-        extras[start:end, 3] = (previous_distance + next_distance) / 2.0
-    return np.column_stack((x.astype(np.float32), extras))
 
 
 def main() -> None:
